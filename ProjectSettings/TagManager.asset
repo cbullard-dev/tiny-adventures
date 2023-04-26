@@ -9,6 +9,8 @@ TagManager:
   - LowerLimit
   - Ground
   - Platform
+  - Traps
+  - EnemyKillZone
   layers:
   - Default
   - TransparentFX

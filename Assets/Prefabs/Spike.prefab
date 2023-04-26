@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 9193971065961703113}
   - component: {fileID: 6162095630739895252}
   - component: {fileID: 3834646487509640552}
-  m_Layer: 9
+  - component: {fileID: 277309230}
+  m_Layer: 0
   m_Name: Spike
   m_TagString: Traps
   m_Icon: {fileID: 0}
@@ -96,7 +97,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -114,3 +115,15 @@ PolygonCollider2D:
     - - {x: 0, y: -0.0625}
       - {x: -0.5, y: -0.5}
       - {x: 0.5, y: -0.5}
+--- !u!114 &277309230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250651710693849964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ccf9d054515288d84c63753d95eb1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
