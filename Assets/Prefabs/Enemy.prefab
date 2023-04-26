@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 36739104}
   - component: {fileID: 36739103}
+  - component: {fileID: 35499609}
   m_Layer: 0
   m_Name: PlayerKillZone01
   m_TagString: Enemies
@@ -42,10 +43,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.4, y: -0.1}
+  m_Offset: {x: -0.46, y: -0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -58,6 +59,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.04, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &35499609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36739102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8951c1b3dc65800b88b78872dcdecb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &189528367
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,6 +81,7 @@ GameObject:
   m_Component:
   - component: {fileID: 189528369}
   - component: {fileID: 189528368}
+  - component: {fileID: 8407239788296213795}
   m_Layer: 0
   m_Name: EnemyKillZone
   m_TagString: Enemies
@@ -100,10 +114,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.05, y: 0.38}
+  m_Offset: {x: 0.05, y: 0.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -116,6 +130,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 0.02}
   m_EdgeRadius: 0
+--- !u!114 &8407239788296213795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189528367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa9db1ca557da253a926469a0c277cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerKillColliders:
+  - {fileID: 36739103}
+  - {fileID: 1258313321}
 --- !u!1 &1258313320
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,6 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1258313322}
   - component: {fileID: 1258313321}
+  - component: {fileID: 2137867910}
   m_Layer: 0
   m_Name: PlayerKillZone02
   m_TagString: Enemies
@@ -158,10 +188,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.4, y: -0.1}
+  m_Offset: {x: 0.46, y: -0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -174,6 +204,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.04, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &2137867910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258313320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8951c1b3dc65800b88b78872dcdecb01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8213608269140031854
 GameObject:
   m_ObjectHideFlags: 0

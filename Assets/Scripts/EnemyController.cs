@@ -18,6 +18,18 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.transform.position.y < -50)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
+    public void KillEnemy()
+    {
+        BoxCollider2D collider = this.GetComponent<BoxCollider2D>();
+        collider.enabled = false;
+        collider.isTrigger = true;
+
+        this.transform.rotation = new Quaternion(180, 0, 0, 0);
     }
 }

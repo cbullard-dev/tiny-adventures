@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
         {
             if (_instance is null)
             {
-                Debug.LogError("Creating new GameManager Instance");
+                Debug.Log("Creating new GameManager Instance");
                 GameObject gameManagerInstance = new GameObject("GameManager");
                 gameManagerInstance.AddComponent<GameManager>();
             }
@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     public void Respawn()
     {
+        GameManager.Instance.GameOver = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

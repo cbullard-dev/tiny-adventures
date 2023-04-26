@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
     PlayerControls controls;
 
     [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float jumpForce = 60f;
+    [SerializeField] private float jumpForce = 15f;
+    [Range(0f, 1f)]
+    [SerializeField] private float BounceRate = 0.75f;
 
     private Rigidbody2D playerRigidbody;
     private Transform playerTransform;
@@ -51,8 +53,10 @@ public class PlayerController : MonoBehaviour
     {
         // Old Movement
         // playerRigidbody.velocity = new Vector2(horizontalMovement * moveSpeed, playerRigidbody.velocity.y);
-
-        horizontalMovement = context.ReadValue<float>();
+        if (!playerDead)
+        {
+            horizontalMovement = context.ReadValue<float>();
+        }
     }
 
     public void HandleJump(InputAction.CallbackContext context)
@@ -72,6 +76,7 @@ public class PlayerController : MonoBehaviour
     {
         playerAnimator.SetFloat("xVelocity", Mathf.Abs(horizontalMovement));
         playerAnimator.SetBool("isGrounded", isGrounded);
+        playerAnimator.SetBool("isDead", playerDead);
     }
 
     private void JumpAnimationHandler()
@@ -109,13 +114,25 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerDeath()
     {
-        playerDead = true;
-        this.enabled = false;
+        if (!playerDead)
+        {
+            playerDead = true;
+            horizontalMovement = 0;
+            Bounce();
+        }
+        // this.enabled = false;
     }
 
     private void OnDestroy()
     {
+        GameManager.Instance.GameOver = true;
         GameManager.Instance.Respawn();
+    }
+
+    public void Bounce()
+    {
+        playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
+        playerRigidbody.AddRelativeForce(Vector2.up * Mathf.Ceil(jumpForce * BounceRate), ForceMode2D.Impulse);
     }
 
 }
