@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     private static GameManager _instance;
 
+    [SerializeField] private int PlayerDefaultLives = 3;
+
     public static GameManager Instance
     {
         get
@@ -30,9 +32,10 @@ public class GameManager : MonoBehaviour
     }
 
     public int PlayerScore { get; set; }
+    public int PlayerLives { get; set; } = GameManager.Instance.PlayerDefaultLives;
+    public int TotalScenes { get; private set; }
     public bool PlayerAlive { get; set; }
     public bool GameOver { get; set; }
-    public int TotalScenes { get; private set; }
 
     public void LoadLevel(int levelId)
     {
@@ -41,7 +44,16 @@ public class GameManager : MonoBehaviour
 
     public void Respawn()
     {
-        GameManager.Instance.GameOver = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.Instance.PlayerLives--;
+        if (_instance.PlayerLives > 0)
+        {
+            GameManager.Instance.GameOver = false;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        else
+        {
+            GameManager.Instance.PlayerLives = PlayerDefaultLives;
+            SceneManager.LoadScene(0);
+        }
     }
 }
