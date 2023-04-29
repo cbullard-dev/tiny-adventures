@@ -29,10 +29,11 @@ public class GameManager : MonoBehaviour
     {
         _instance = this;
         TotalScenes = SceneManager.sceneCountInBuildSettings;
+        PlayerLives = PlayerDefaultLives;
     }
 
     public int PlayerScore { get; set; }
-    public int PlayerLives { get; set; } = GameManager.Instance.PlayerDefaultLives;
+    public int PlayerLives { get; set; }
     public int TotalScenes { get; private set; }
     public bool PlayerAlive { get; set; }
     public bool GameOver { get; set; }
