@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class CoinManager : MonoBehaviour
 {
-    public enum CoinType { BRONZE, SILVER, GOLD }
+    [SerializeField] private int coinValue = 1;
     // Start is called before the first frame update
-    void Start()
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        if (other.gameObject.tag == "Player")
+        {
+            GameManager.Instance.PlayerScore += coinValue;
+            Destroy(this.gameObject);
+        }
     }
 }
