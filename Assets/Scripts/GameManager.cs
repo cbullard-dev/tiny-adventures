@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public int PlayerLives { get; set; }
     public int TotalScenes { get; private set; }
     public bool PlayerAlive { get; set; }
-    public bool GameOver { get; set; } = false;
+    public bool GameOver { get; set; }
 
     public void LoadLevel(int levelId)
     {
@@ -49,12 +49,12 @@ public class GameManager : MonoBehaviour
         if (_instance.PlayerLives > 0)
         {
             GameManager.Instance.GameOver = false;
-            GameManager.Instance.LoadLevel(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else
         {
             GameManager.Instance.PlayerLives = PlayerDefaultLives;
-            GameManager.Instance.LoadLevel(0);
+            SceneManager.LoadScene(0);
         }
     }
 }
