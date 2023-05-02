@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
 
     [SerializeField] private int PlayerDefaultLives = 3;
+    [SerializeField] private GameObject playerPrefab;
 
     public static GameManager Instance
     {
@@ -46,8 +47,8 @@ public class GameManager : MonoBehaviour
 
     private void LoadMainMenu()
     {
-        LoadLevel(0);
-        PlayerLives = PlayerDefaultLives;
+        GameManager.Instance.LoadLevel(0);
+        GameManager.Instance.PlayerLives = PlayerDefaultLives;
         GameManager.Instance.GameOver = false;
     }
 
@@ -56,13 +57,17 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.PlayerLives--;
         if (_instance.PlayerLives > 0)
         {
+            GameObject respawn = GameObject.FindWithTag("Respawn");
             GameManager.Instance.GameOver = false;
-            LoadLevel(SceneManager.GetActiveScene().buildIndex);
+            if (!GameObject.FindWithTag("Player"))
+            {
+                Instantiate(playerPrefab, respawn.transform.position, respawn.transform.rotation);
+            }
         }
         else
         {
             GameManager.Instance.PlayerLives = PlayerDefaultLives;
-            LoadMainMenu();
+            GameManager.Instance.LoadMainMenu();
         }
     }
 
@@ -74,12 +79,12 @@ public class GameManager : MonoBehaviour
         {
             GameManager.Instance.GameOver = true;
             Debug.Log("Loading main menu");
-            LoadMainMenu();
+            GameManager.Instance.LoadMainMenu();
         }
         else if (currentLevel < TotalScenes)
         {
             Debug.Log("Loading next level");
-            LoadLevel(currentLevel + 1);
+            GameManager.Instance.LoadLevel(currentLevel + 1);
         }
         else
         {

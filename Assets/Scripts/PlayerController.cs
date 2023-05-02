@@ -123,11 +123,11 @@ public class PlayerController : MonoBehaviour
         // this.enabled = false;
     }
 
-    private void OnDestroy()
-    {
-        GameManager.Instance.GameOver = true;
-        GameManager.Instance.Respawn();
-    }
+    // private void OnDestroy()
+    // {
+    //     GameManager.Instance.GameOver = true;
+    //     GameManager.Instance.Respawn();
+    // }
 
     public void Bounce()
     {
