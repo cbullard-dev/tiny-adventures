@@ -45,11 +45,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(levelId);
     }
 
-    private void LoadMainMenu()
+    public void LoadMainMenu()
     {
         GameManager.Instance.LoadLevel(0);
         GameManager.Instance.PlayerLives = PlayerDefaultLives;
-        GameManager.Instance.GameOver = false;
     }
 
     public void Respawn()

@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
+        GameManager.Instance.GameOver = false;
         GameManager.Instance.LoadLevel(1);
     }
 }
