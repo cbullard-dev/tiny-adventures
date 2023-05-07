@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3083896193689229455}
   - component: {fileID: 3031284663172545436}
   - component: {fileID: -1044179605657250475}
+  - component: {fileID: 1079311636}
   m_Layer: 0
   m_Name: BronzeCoin
   m_TagString: Untagged
@@ -115,3 +116,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a49ce90ea3886438f069f52df1186e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1079311636
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8094715232351757082}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e23664e662a46e84eb3bbf08eecf3ec7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
