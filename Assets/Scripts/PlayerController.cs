@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : PhysicsObject
 {
 
     PlayerControls controls;
@@ -30,8 +30,9 @@ public class PlayerController : MonoBehaviour
         SpawnPoint = GameObject.FindWithTag("Respawn");
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (horizontalMovement > 0.1f && !facingRight)
         {
             FlipCharacter();
@@ -125,8 +126,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.GameOver = true;
-        GameManager.Instance.Respawn();
+        if (!GameManager.Instance.GameOver && GameManager.Instance.PlayerLives > 0)
+        {
+            GameManager.Instance.Respawn();
+        }
+        else if (GameManager.Instance.PlayerLives <= 0)
+        {
+            GameManager.Instance.GameOver = true;
+            GameManager.Instance.LoadMainMenu();
+        }
     }
 
     public void Bounce()

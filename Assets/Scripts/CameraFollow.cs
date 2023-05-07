@@ -28,7 +28,14 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.transform.position = new Vector3(playerPosition.position.x > xMinPoint ? playerPosition.position.x : xMinPoint, playerPosition.position.y > yMinPoint ? playerPosition.position.y : yMinPoint, this.transform.position.z);
+        if (playerPosition == null)
+        {
+            playerPosition = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        }
+        if (playerPosition != null)
+        {
+            this.transform.position = new Vector3(playerPosition.position.x > xMinPoint ? playerPosition.position.x : xMinPoint, playerPosition.position.y > yMinPoint ? playerPosition.position.y : yMinPoint, this.transform.position.z);
+        }
     }
 
     private void OnDrawGizmos()

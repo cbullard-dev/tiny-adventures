@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : PhysicsObject
 {
     [SerializeField]
     private BoxCollider2D[] PlayerKillZones;
@@ -16,12 +16,9 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        if (this.transform.position.y < -50)
-        {
-            Destroy(this.gameObject);
-        }
+        base.Update();
     }
 
     public void KillEnemy()
