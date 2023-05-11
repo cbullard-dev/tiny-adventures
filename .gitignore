@@ -73,3 +73,5 @@ crashlytics-build.properties
 
 # Mac OS DS_Store
 *.DS_[Ss]tore
+Assets/Prefabs/Player.prefab
+Assets/Materials.meta
