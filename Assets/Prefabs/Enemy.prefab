@@ -365,7 +365,7 @@ Animator:
   m_GameObject: {fileID: 8213608269140031854}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5c9b1613b25e4d744a0e20c7d7913a1c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -392,3 +392,6 @@ MonoBehaviour:
   - {fileID: 36739103}
   - {fileID: 1258313321}
   EnemyKillZone: {fileID: 189528368}
+  enemyPatrolController: {fileID: 0}
+  patrolEnemy: 1
+  moveSpeed: 2
