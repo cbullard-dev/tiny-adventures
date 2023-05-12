@@ -10,24 +10,31 @@ public class PlayerController : PhysicsObject
     [SerializeField] private float jumpForce = 15f;
     [Range(0f, 1f)]
     [SerializeField] private float BounceRate = 0.75f;
-    [Space(10)]
-    [SerializeField] private Vector2 GroundCheckBox;
 
+    [Header("Layer selects")]
     [Space(10)]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask platformLayer;
+
+    [Header("Debug fields")]
     [ReadOnly, SerializeField] private LayerMask groundCombinedLayer;
+    [ReadOnly, SerializeField] private bool isGrounded;
+    [ReadOnly, SerializeField] private bool jump;
 
     private Rigidbody2D playerRigidbody;
     private Transform playerTransform;
     private Animator playerAnimator;
     private float horizontalMovement;
-    [ReadOnly, SerializeField] private bool isGrounded;
-    [ReadOnly, SerializeField] private bool jump;
-    private bool facingRight = true;
     private bool flipSprite;
-    private bool playerDead = false;
+    private bool facingRight = true;
+    private bool playerAlive = true;
     private GameObject SpawnPoint;
+
+    [SerializeField] private float cyoteTime = 0.2f;
+    private float cyoteTimeCounter;
+
+    [SerializeField] private float jumpBuffer = 0.2f;
+    private float jumpBufferCounter;
 
     private void Awake()
     {
@@ -41,7 +48,11 @@ public class PlayerController : PhysicsObject
     protected override void Update()
     {
         base.Update();
-        isGrounded = CheckGrounded();
+        jumpBufferCounter -= Time.deltaTime;
+        isGrounded = IsGrounded();
+        CyoteTime();
+        Jump();
+
         if (horizontalMovement > 0.1f && !facingRight)
         {
             FlipCharacter();
@@ -63,7 +74,7 @@ public class PlayerController : PhysicsObject
     {
         // Old Movement
         // playerRigidbody.velocity = new Vector2(horizontalMovement * moveSpeed, playerRigidbody.velocity.y);
-        if (!playerDead)
+        if (playerAlive)
         {
             horizontalMovement = context.ReadValue<float>();
         }
@@ -71,14 +82,14 @@ public class PlayerController : PhysicsObject
 
     public void HandleJump(InputAction.CallbackContext context)
     {
-        if (context.performed && isGrounded && !playerDead)
+        if (context.performed)
         {
-            playerRigidbody.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpBufferCounter = jumpBuffer;
         }
 
         if (context.canceled && playerRigidbody.velocity.y > 0f)
         {
-            playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, playerRigidbody.velocity.y * 0.5f);
+            JumpCancel();
         }
     }
 
@@ -86,7 +97,7 @@ public class PlayerController : PhysicsObject
     {
         playerAnimator.SetFloat("xVelocity", Mathf.Abs(horizontalMovement));
         playerAnimator.SetBool("isGrounded", isGrounded);
-        playerAnimator.SetBool("isDead", playerDead);
+        playerAnimator.SetBool("isAlive", playerAlive);
     }
 
     private void JumpAnimationHandler()
@@ -98,6 +109,48 @@ public class PlayerController : PhysicsObject
         }
     }
 
+    private void PlayerJump()
+    {
+        playerRigidbody.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        jumpBufferCounter = 0f;
+    }
+
+    private void JumpCancel()
+    {
+        playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, playerRigidbody.velocity.y * 0.5f);
+        cyoteTimeCounter = 0f;
+    }
+
+    private bool CanJump()
+    {
+        return playerAlive && cyoteTimeCounter > 0f;
+    }
+
+    private void Jump()
+    {
+        if (CanJump() && JumpBufferd())
+        {
+            PlayerJump();
+        }
+    }
+
+    private void CyoteTime()
+    {
+        if (IsGrounded())
+        {
+            cyoteTimeCounter = cyoteTime;
+        }
+        else
+        {
+            cyoteTimeCounter -= Time.deltaTime;
+        }
+    }
+
+    private bool JumpBufferd()
+    {
+        return jumpBufferCounter > 0;
+    }
+
     private void FlipCharacter()
     {
         facingRight = !facingRight;
@@ -106,23 +159,7 @@ public class PlayerController : PhysicsObject
         playerTransform.localScale = scale;
     }
 
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     if ((collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform") && playerRigidbody.velocity.y <= 0)
-    //     {
-    //         isGrounded = true;
-    //     }
-    // }
-
-    // private void OnTriggerExit2D(Collider2D collision)
-    // {
-    //     if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform")
-    //     {
-    //         isGrounded = false;
-    //     }
-    // }
-
-    private bool CheckGrounded()
+    private bool IsGrounded()
     {
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(this.transform.position.x, this.transform.position.y - this.gameObject.GetComponent<CapsuleCollider2D>().size.y * 0.5f), Vector2.down, 0.3f, groundCombinedLayer);
         if (hit)
@@ -135,9 +172,9 @@ public class PlayerController : PhysicsObject
 
     public void PlayerDeath()
     {
-        if (!playerDead)
+        if (playerAlive)
         {
-            playerDead = true;
+            playerAlive = false;
             horizontalMovement = 0;
             Bounce();
         }
@@ -183,5 +220,21 @@ public class PlayerController : PhysicsObject
         Gizmos.DrawLine(bottomLeft, BottomRight);
         Gizmos.DrawLine(topRight, BottomRight);
     }
+
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     if ((collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform") && playerRigidbody.velocity.y <= 0)
+    //     {
+    //         isGrounded = true;
+    //     }
+    // }
+
+    // private void OnTriggerExit2D(Collider2D collision)
+    // {
+    //     if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform")
+    //     {
+    //         isGrounded = false;
+    //     }
+    // }
 
 }

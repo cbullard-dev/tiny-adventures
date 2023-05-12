@@ -309,9 +309,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  jumpForce: 7
+  jumpForce: 22
   BounceRate: 0.7
-  GroundCheckBox: {x: 0.8, y: 0.02}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -323,6 +322,8 @@ MonoBehaviour:
     m_Bits: 0
   isGrounded: 0
   jump: 0
+  cyoteTime: 0.2
+  jumpBuffer: 0.2
 --- !u!70 &104367331798029352
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

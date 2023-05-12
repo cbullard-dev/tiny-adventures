@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         {
             GameObject respawn = GameObject.FindWithTag("Respawn");
             GameManager.Instance.GameOver = false;
-            if (!GameObject.FindWithTag("Player"))
+            if (!GameObject.FindWithTag("Player") && respawn != null)
             {
                 Instantiate(playerPrefab, respawn.transform.position, respawn.transform.rotation);
             }
