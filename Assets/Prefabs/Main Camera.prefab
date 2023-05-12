@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e7000b5db3d4d7e8f453a3b86823a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraPosition: {fileID: 0}
+  cameraPosition: {fileID: 5110770198810568703}
   playerPosition: {fileID: 0}
-  MovementZone: {x: 0, y: 0, z: 0}
+  MovementZone: {x: 3.5, y: 5, z: 0}
   xMinPoint: -20

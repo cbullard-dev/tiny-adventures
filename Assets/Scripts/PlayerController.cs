@@ -10,13 +10,20 @@ public class PlayerController : PhysicsObject
     [SerializeField] private float jumpForce = 15f;
     [Range(0f, 1f)]
     [SerializeField] private float BounceRate = 0.75f;
+    [Space(10)]
+    [SerializeField] private Vector2 GroundCheckBox;
+
+    [Space(10)]
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask platformLayer;
+    [ReadOnly, SerializeField] private LayerMask groundCombinedLayer;
 
     private Rigidbody2D playerRigidbody;
     private Transform playerTransform;
     private Animator playerAnimator;
     private float horizontalMovement;
-    [SerializeField] private bool isGrounded;
-    [SerializeField] private bool jump;
+    [ReadOnly, SerializeField] private bool isGrounded;
+    [ReadOnly, SerializeField] private bool jump;
     private bool facingRight = true;
     private bool flipSprite;
     private bool playerDead = false;
@@ -27,12 +34,14 @@ public class PlayerController : PhysicsObject
         playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
         playerTransform = this.gameObject.GetComponent<Transform>();
         playerAnimator = this.gameObject.GetComponent<Animator>();
+        groundCombinedLayer = groundLayer | platformLayer;
         SpawnPoint = GameObject.FindWithTag("Respawn");
     }
 
     protected override void Update()
     {
         base.Update();
+        isGrounded = CheckGrounded();
         if (horizontalMovement > 0.1f && !facingRight)
         {
             FlipCharacter();
@@ -97,20 +106,35 @@ public class PlayerController : PhysicsObject
         playerTransform.localScale = scale;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if ((collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform") && playerRigidbody.velocity.y <= 0)
-        {
-            isGrounded = true;
-        }
-    }
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     if ((collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform") && playerRigidbody.velocity.y <= 0)
+    //     {
+    //         isGrounded = true;
+    //     }
+    // }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    // private void OnTriggerExit2D(Collider2D collision)
+    // {
+    //     if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform")
+    //     {
+    //         isGrounded = false;
+    //     }
+    // }
+
+    private bool CheckGrounded()
     {
-        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform")
+        // BoxCollider2D groundCheckBox = this.gameObject.GetComponent<BoxCollider2D>();
+        // RaycastHit2D box = Physics2D.BoxCast(groundCheckBox.offset, groundCheckBox.size, 0, Vector2.down, 1f, groundCombinedLayer);
+        // Debug.Log(box);
+
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(this.transform.position.x, this.transform.position.y - this.gameObject.GetComponent<CapsuleCollider2D>().size.y * 0.5f), Vector2.down, 0.3f, groundCombinedLayer);
+        if (hit)
         {
-            isGrounded = false;
+            return true;
         }
+
+        return false;
     }
 
     public void PlayerDeath()
@@ -141,6 +165,27 @@ public class PlayerController : PhysicsObject
     {
         playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
         playerRigidbody.AddRelativeForce(Vector2.up * Mathf.Ceil(jumpForce * BounceRate), ForceMode2D.Impulse);
+    }
+
+    private void OnDrawGizmos()
+    {
+        BoxCollider2D groundCheckBox = this.gameObject.GetComponent<BoxCollider2D>();
+        DrawRaycastBox(new Vector2(this.transform.position.x - 0.36f, this.transform.position.y - 0.5f), groundCheckBox.size);
+        Gizmos.DrawLine(new Vector2(this.transform.position.x, this.transform.position.y - this.gameObject.GetComponent<CapsuleCollider2D>().size.y * 0.5f), new Vector2(this.transform.position.x, this.transform.position.y * 0.5f) + Vector2.down);
+    }
+
+    private void DrawRaycastBox(Vector2 origin, Vector2 size)
+    {
+        float sizeX = size.x;
+        float sizeY = size.y;
+        Vector2 topRight = origin + new Vector2(sizeX, 0);
+        Vector2 bottomLeft = origin + new Vector2(0, -sizeY);
+        Vector2 BottomRight = origin + new Vector2(sizeX, -sizeY);
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawLine(origin, topRight);
+        Gizmos.DrawLine(origin, bottomLeft);
+        Gizmos.DrawLine(bottomLeft, BottomRight);
+        Gizmos.DrawLine(topRight, BottomRight);
     }
 
 }
