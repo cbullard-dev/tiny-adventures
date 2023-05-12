@@ -20,6 +20,8 @@ public class EnemyController : PhysicsObject
 
     private bool facingRight = false;
 
+    private bool isDead = false;
+
 
     private void Awake()
     {
@@ -72,6 +74,7 @@ public class EnemyController : PhysicsObject
     }
     public void KillEnemy()
     {
+        isDead = true;
         BoxCollider2D collider = this.GetComponent<BoxCollider2D>();
         collider.enabled = false;
         collider.isTrigger = true;
@@ -119,5 +122,10 @@ public class EnemyController : PhysicsObject
         Vector2 scale = enemyTransform.localScale;
         scale.x *= -1;
         enemyTransform.localScale = scale;
+    }
+
+    public bool GetIsDead()
+    {
+        return isDead;
     }
 }

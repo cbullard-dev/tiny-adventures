@@ -124,10 +124,6 @@ public class PlayerController : PhysicsObject
 
     private bool CheckGrounded()
     {
-        // BoxCollider2D groundCheckBox = this.gameObject.GetComponent<BoxCollider2D>();
-        // RaycastHit2D box = Physics2D.BoxCast(groundCheckBox.offset, groundCheckBox.size, 0, Vector2.down, 1f, groundCombinedLayer);
-        // Debug.Log(box);
-
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(this.transform.position.x, this.transform.position.y - this.gameObject.GetComponent<CapsuleCollider2D>().size.y * 0.5f), Vector2.down, 0.3f, groundCombinedLayer);
         if (hit)
         {

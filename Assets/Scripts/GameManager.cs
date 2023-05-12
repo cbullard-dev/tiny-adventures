@@ -18,9 +18,8 @@ public class GameManager : MonoBehaviour
             if (_instance is null)
             {
                 Debug.Log("Creating new GameManager Instance");
-                GameObject gameManagerInstance = new GameObject("GameManager");
+                GameObject gameManagerInstance = Instantiate(Resources.Load("GameManager") as GameObject);
                 DontDestroyOnLoad(gameManagerInstance);
-                gameManagerInstance.AddComponent<GameManager>();
             }
 
             return _instance;
