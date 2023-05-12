@@ -28,7 +28,7 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerPosition == null)
+        if (playerPosition == null && GameObject.FindWithTag("Player"))
         {
             playerPosition = GameObject.FindWithTag("Player").GetComponent<Transform>();
         }

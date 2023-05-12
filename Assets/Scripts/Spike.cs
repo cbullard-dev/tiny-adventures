@@ -17,10 +17,8 @@ public class Spike : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Trigger Entered");
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("Player hit spike");
             other.gameObject.GetComponent<PlayerController>().PlayerDeath();
         }
 
