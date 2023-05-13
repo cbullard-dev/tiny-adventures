@@ -4,237 +4,218 @@ using UnityEngine.InputSystem;
 public class PlayerController : PhysicsObject
 {
 
-    PlayerControls controls;
+  PlayerControls controls;
 
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float jumpForce = 15f;
-    [Range(0f, 1f)]
-    [SerializeField] private float BounceRate = 0.75f;
+  [SerializeField] private float moveSpeed = 2f;
+  [SerializeField] private float jumpForce = 15f;
+  [Range(0f, 1f)]
+  [SerializeField] private float BounceRate = 0.75f;
 
-    [Header("Layer selects")]
-    [Space(10)]
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private LayerMask platformLayer;
+  [Header("Layer selects")]
+  [Space(10)]
+  [SerializeField] private LayerMask groundLayer;
+  [SerializeField] private LayerMask platformLayer;
 
-    [Header("Debug fields")]
-    [ReadOnly, SerializeField] private LayerMask groundCombinedLayer;
-    [ReadOnly, SerializeField] private bool isGrounded;
-    [ReadOnly, SerializeField] private bool jump;
+  [Header("Debug fields")]
+  [ReadOnly, SerializeField] private LayerMask groundCombinedLayer;
+  [ReadOnly, SerializeField] private bool isGrounded;
+  [ReadOnly, SerializeField] private bool jump;
 
-    private Rigidbody2D playerRigidbody;
-    private Transform playerTransform;
-    private Animator playerAnimator;
-    private float horizontalMovement;
-    private bool flipSprite;
-    private bool facingRight = true;
-    private bool playerAlive = true;
-    private GameObject SpawnPoint;
+  private Rigidbody2D playerRigidbody;
+  private Transform playerTransform;
+  private Animator playerAnimator;
+  private float horizontalMovement;
+  private bool flipSprite;
+  private bool facingRight = true;
+  private bool playerAlive = true;
+  private GameObject SpawnPoint;
 
-    [SerializeField] private float cyoteTime = 0.2f;
-    private float cyoteTimeCounter;
+  [SerializeField] private float cyoteTime = 0.2f;
+  private float cyoteTimeCounter;
 
-    [SerializeField] private float jumpBuffer = 0.2f;
-    private float jumpBufferCounter;
+  [SerializeField] private float jumpBuffer = 0.2f;
+  private float jumpBufferCounter;
 
-    private void Awake()
+  private void Awake()
+  {
+    playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+    playerTransform = this.gameObject.GetComponent<Transform>();
+    playerAnimator = this.gameObject.GetComponent<Animator>();
+    groundCombinedLayer = groundLayer | platformLayer;
+    SpawnPoint = GameObject.FindWithTag("Respawn");
+  }
+
+  protected override void Update()
+  {
+    base.Update();
+    jumpBufferCounter -= Time.deltaTime;
+    isGrounded = IsGrounded();
+    CyoteTime();
+    Jump();
+
+    if (horizontalMovement > 0.1f && !facingRight)
     {
-        playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-        playerTransform = this.gameObject.GetComponent<Transform>();
-        playerAnimator = this.gameObject.GetComponent<Animator>();
-        groundCombinedLayer = groundLayer | platformLayer;
-        SpawnPoint = GameObject.FindWithTag("Respawn");
+      FlipCharacter();
+    }
+    else if (horizontalMovement < -0.1f && facingRight)
+    {
+      FlipCharacter();
     }
 
-    protected override void Update()
+    AnimationHandler();
+  }
+
+  private void FixedUpdate()
+  {
+    playerRigidbody.velocity = new Vector2(horizontalMovement * moveSpeed, playerRigidbody.velocity.y);
+  }
+
+  public void Move(InputAction.CallbackContext context)
+  {
+    if (playerAlive)
     {
-        base.Update();
-        jumpBufferCounter -= Time.deltaTime;
-        isGrounded = IsGrounded();
-        CyoteTime();
-        Jump();
+      horizontalMovement = context.ReadValue<float>();
+    }
+  }
 
-        if (horizontalMovement > 0.1f && !facingRight)
-        {
-            FlipCharacter();
-        }
-        else if (horizontalMovement < -0.1f && facingRight)
-        {
-            FlipCharacter();
-        }
-
-        AnimationHandler();
+  public void HandleJump(InputAction.CallbackContext context)
+  {
+    if (context.performed)
+    {
+      jumpBufferCounter = jumpBuffer;
     }
 
-    private void FixedUpdate()
+    if (context.canceled && playerRigidbody.velocity.y > 0f)
     {
-        playerRigidbody.velocity = new Vector2(horizontalMovement * moveSpeed, playerRigidbody.velocity.y);
+      JumpCancel();
+    }
+  }
+
+  private void AnimationHandler()
+  {
+    playerAnimator.SetFloat("xVelocity", Mathf.Abs(horizontalMovement));
+    playerAnimator.SetBool("isGrounded", isGrounded);
+    playerAnimator.SetBool("isAlive", playerAlive);
+  }
+
+  private void JumpAnimationHandler()
+  {
+    if (!playerAnimator.GetBool("isGrounded"))
+    {
+      playerAnimator.SetBool("isGrounded", true);
+      playerAnimator.SetFloat("xVelocity", Mathf.Abs(horizontalMovement));
+    }
+  }
+
+  private void PlayerJump()
+  {
+    playerRigidbody.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    jumpBufferCounter = 0f;
+  }
+
+  private void JumpCancel()
+  {
+    playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, playerRigidbody.velocity.y * 0.5f);
+    cyoteTimeCounter = 0f;
+  }
+
+  private bool CanJump()
+  {
+    return playerAlive && cyoteTimeCounter > 0f;
+  }
+
+  private void Jump()
+  {
+    if (CanJump() && JumpBufferd())
+    {
+      PlayerJump();
+    }
+  }
+
+  private void CyoteTime()
+  {
+    if (IsGrounded())
+    {
+      cyoteTimeCounter = cyoteTime;
+    }
+    else
+    {
+      cyoteTimeCounter -= Time.deltaTime;
+    }
+  }
+
+  private bool JumpBufferd()
+  {
+    return jumpBufferCounter > 0;
+  }
+
+  private void FlipCharacter()
+  {
+    facingRight = !facingRight;
+    Vector2 scale = playerTransform.localScale;
+    scale.x *= -1;
+    playerTransform.localScale = scale;
+  }
+
+  private bool IsGrounded()
+  {
+    RaycastHit2D hit = Physics2D.Raycast(new Vector2(this.transform.position.x, this.transform.position.y - this.gameObject.GetComponent<CapsuleCollider2D>().size.y * 0.5f), Vector2.down, 0.3f, groundCombinedLayer);
+    if (hit)
+    {
+      return true;
     }
 
-    public void Move(InputAction.CallbackContext context)
+    return false;
+  }
+
+  public void PlayerDeath()
+  {
+    if (playerAlive)
     {
-        // Old Movement
-        // playerRigidbody.velocity = new Vector2(horizontalMovement * moveSpeed, playerRigidbody.velocity.y);
-        if (playerAlive)
-        {
-            horizontalMovement = context.ReadValue<float>();
-        }
+      playerAlive = false;
+      horizontalMovement = 0;
+      Bounce();
     }
+  }
 
-    public void HandleJump(InputAction.CallbackContext context)
+  private void OnDestroy()
+  {
+    if (!GameManager.Instance.GameOver && GameManager.Instance.PlayerLives > 0)
     {
-        if (context.performed)
-        {
-            jumpBufferCounter = jumpBuffer;
-        }
-
-        if (context.canceled && playerRigidbody.velocity.y > 0f)
-        {
-            JumpCancel();
-        }
+      GameManager.Instance.Respawn();
     }
-
-    private void AnimationHandler()
+    else if (GameManager.Instance.PlayerLives <= 0)
     {
-        playerAnimator.SetFloat("xVelocity", Mathf.Abs(horizontalMovement));
-        playerAnimator.SetBool("isGrounded", isGrounded);
-        playerAnimator.SetBool("isAlive", playerAlive);
+      GameManager.Instance.GameOver = true;
+      GameManager.Instance.LoadMainMenu();
     }
+  }
 
-    private void JumpAnimationHandler()
-    {
-        if (!playerAnimator.GetBool("isGrounded"))
-        {
-            playerAnimator.SetBool("isGrounded", true);
-            playerAnimator.SetFloat("xVelocity", Mathf.Abs(horizontalMovement));
-        }
-    }
+  public void Bounce()
+  {
+    playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
+    playerRigidbody.AddRelativeForce(Vector2.up * Mathf.Ceil(jumpForce * BounceRate), ForceMode2D.Impulse);
+  }
 
-    private void PlayerJump()
-    {
-        playerRigidbody.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        jumpBufferCounter = 0f;
-    }
+  private void OnDrawGizmos()
+  {
+    BoxCollider2D groundCheckBox = this.gameObject.GetComponent<BoxCollider2D>();
+    DrawRaycastBox(new Vector2(this.transform.position.x - 0.36f, this.transform.position.y - 0.5f), groundCheckBox.size);
+    Gizmos.DrawLine(new Vector2(this.transform.position.x, this.transform.position.y - this.gameObject.GetComponent<CapsuleCollider2D>().size.y * 0.5f), new Vector2(this.transform.position.x, this.transform.position.y * 0.5f) + Vector2.down);
+  }
 
-    private void JumpCancel()
-    {
-        playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, playerRigidbody.velocity.y * 0.5f);
-        cyoteTimeCounter = 0f;
-    }
-
-    private bool CanJump()
-    {
-        return playerAlive && cyoteTimeCounter > 0f;
-    }
-
-    private void Jump()
-    {
-        if (CanJump() && JumpBufferd())
-        {
-            PlayerJump();
-        }
-    }
-
-    private void CyoteTime()
-    {
-        if (IsGrounded())
-        {
-            cyoteTimeCounter = cyoteTime;
-        }
-        else
-        {
-            cyoteTimeCounter -= Time.deltaTime;
-        }
-    }
-
-    private bool JumpBufferd()
-    {
-        return jumpBufferCounter > 0;
-    }
-
-    private void FlipCharacter()
-    {
-        facingRight = !facingRight;
-        Vector2 scale = playerTransform.localScale;
-        scale.x *= -1;
-        playerTransform.localScale = scale;
-    }
-
-    private bool IsGrounded()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(this.transform.position.x, this.transform.position.y - this.gameObject.GetComponent<CapsuleCollider2D>().size.y * 0.5f), Vector2.down, 0.3f, groundCombinedLayer);
-        if (hit)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public void PlayerDeath()
-    {
-        if (playerAlive)
-        {
-            playerAlive = false;
-            horizontalMovement = 0;
-            Bounce();
-        }
-        // this.enabled = false;
-    }
-
-    private void OnDestroy()
-    {
-        if (!GameManager.Instance.GameOver && GameManager.Instance.PlayerLives > 0)
-        {
-            GameManager.Instance.Respawn();
-        }
-        else if (GameManager.Instance.PlayerLives <= 0)
-        {
-            GameManager.Instance.GameOver = true;
-            GameManager.Instance.LoadMainMenu();
-        }
-    }
-
-    public void Bounce()
-    {
-        playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
-        playerRigidbody.AddRelativeForce(Vector2.up * Mathf.Ceil(jumpForce * BounceRate), ForceMode2D.Impulse);
-    }
-
-    private void OnDrawGizmos()
-    {
-        BoxCollider2D groundCheckBox = this.gameObject.GetComponent<BoxCollider2D>();
-        DrawRaycastBox(new Vector2(this.transform.position.x - 0.36f, this.transform.position.y - 0.5f), groundCheckBox.size);
-        Gizmos.DrawLine(new Vector2(this.transform.position.x, this.transform.position.y - this.gameObject.GetComponent<CapsuleCollider2D>().size.y * 0.5f), new Vector2(this.transform.position.x, this.transform.position.y * 0.5f) + Vector2.down);
-    }
-
-    private void DrawRaycastBox(Vector2 origin, Vector2 size)
-    {
-        float sizeX = size.x;
-        float sizeY = size.y;
-        Vector2 topRight = origin + new Vector2(sizeX, 0);
-        Vector2 bottomLeft = origin + new Vector2(0, -sizeY);
-        Vector2 BottomRight = origin + new Vector2(sizeX, -sizeY);
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(origin, topRight);
-        Gizmos.DrawLine(origin, bottomLeft);
-        Gizmos.DrawLine(bottomLeft, BottomRight);
-        Gizmos.DrawLine(topRight, BottomRight);
-    }
-
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     if ((collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform") && playerRigidbody.velocity.y <= 0)
-    //     {
-    //         isGrounded = true;
-    //     }
-    // }
-
-    // private void OnTriggerExit2D(Collider2D collision)
-    // {
-    //     if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Platform")
-    //     {
-    //         isGrounded = false;
-    //     }
-    // }
+  private void DrawRaycastBox(Vector2 origin, Vector2 size)
+  {
+    float sizeX = size.x;
+    float sizeY = size.y;
+    Vector2 topRight = origin + new Vector2(sizeX, 0);
+    Vector2 bottomLeft = origin + new Vector2(0, -sizeY);
+    Vector2 BottomRight = origin + new Vector2(sizeX, -sizeY);
+    Gizmos.color = Color.magenta;
+    Gizmos.DrawLine(origin, topRight);
+    Gizmos.DrawLine(origin, bottomLeft);
+    Gizmos.DrawLine(bottomLeft, BottomRight);
+    Gizmos.DrawLine(topRight, BottomRight);
+  }
 
 }
