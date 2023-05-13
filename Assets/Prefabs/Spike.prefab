@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6162095630739895252}
   - component: {fileID: 3834646487509640552}
   - component: {fileID: 277309230}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Spike
   m_TagString: Traps
   m_Icon: {fileID: 0}
