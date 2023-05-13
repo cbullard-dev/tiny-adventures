@@ -145,7 +145,7 @@ public class EnemyController : PhysicsObject
     if (xNormal < 1f && xNormal > 0.9f || xNormal > -1f && xNormal < -0.9f)
     {
       Debug.Log("Kill the player!");
-      playerController.PlayerDeath();
+      playerController.KillPlayer();
     }
 
     if (yNormal >= -1f && yNormal < -0.9f)

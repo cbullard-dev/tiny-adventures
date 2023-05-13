@@ -30,8 +30,8 @@ public class PlayerController : PhysicsObject
   private bool playerAlive = true;
   private GameObject SpawnPoint;
 
-  [SerializeField] private float cyoteTime = 0.2f;
-  private float cyoteTimeCounter;
+  [SerializeField] private float coyoteTime = 0.2f;
+  private float coyoteTimeCounter;
 
   [SerializeField] private float jumpBuffer = 0.2f;
   private float jumpBufferCounter;
@@ -50,7 +50,7 @@ public class PlayerController : PhysicsObject
     base.Update();
     jumpBufferCounter -= Time.deltaTime;
     isGrounded = IsGrounded();
-    CyoteTime();
+    CoyoteTime();
     Jump();
 
     if (horizontalMovement > 0.1f && !facingRight)
@@ -116,35 +116,35 @@ public class PlayerController : PhysicsObject
   private void JumpCancel()
   {
     playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, playerRigidbody.velocity.y * 0.5f);
-    cyoteTimeCounter = 0f;
+    coyoteTimeCounter = 0f;
   }
 
   private bool CanJump()
   {
-    return playerAlive && cyoteTimeCounter > 0f;
+    return playerAlive && coyoteTimeCounter > 0f;
   }
 
   private void Jump()
   {
-    if (CanJump() && JumpBufferd())
+    if (CanJump() && JumpBuffered())
     {
       PlayerJump();
     }
   }
 
-  private void CyoteTime()
+  private void CoyoteTime()
   {
     if (IsGrounded())
     {
-      cyoteTimeCounter = cyoteTime;
+      coyoteTimeCounter = coyoteTime;
     }
     else
     {
-      cyoteTimeCounter -= Time.deltaTime;
+      coyoteTimeCounter -= Time.deltaTime;
     }
   }
 
-  private bool JumpBufferd()
+  private bool JumpBuffered()
   {
     return jumpBufferCounter > 0;
   }
@@ -168,7 +168,7 @@ public class PlayerController : PhysicsObject
     return false;
   }
 
-  public void PlayerDeath()
+  public void KillPlayer()
   {
     if (playerAlive)
     {

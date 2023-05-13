@@ -4,23 +4,21 @@ using UnityEngine;
 
 public class Spike : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+  // Start is called before the first frame update
+  void Start()
+  {
+  }
 
-    // Update is called once per frame
-    void Update()
-    {
+  // Update is called once per frame
+  void Update()
+  {
 
-    }
+  }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            other.gameObject.GetComponent<PlayerController>().PlayerDeath();
-        }
-
-    }
+  private void OnTriggerEnter2D(Collider2D other)
+  {
+    if (other.gameObject.tag != "Player") return;
+    PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+    playerController.KillPlayer();
+  }
 }
