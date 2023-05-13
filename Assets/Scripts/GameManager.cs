@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour
     AudioInstance = FindObjectOfType<AudioManager>();
   }
 
+  private void Start()
+  {
+    AudioManager.Instance.Play("MainTheme");
+  }
+
   public int PlayerScore { get; set; } = 0;
   public int PlayerLives { get; set; }
   public int TotalScenes { get; private set; }

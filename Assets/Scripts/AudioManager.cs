@@ -4,9 +4,24 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-  public static AudioManager _instance;
+  private static AudioManager _instance;
 
   [SerializeField] private Sound[] sounds;
+
+  public static AudioManager Instance
+  {
+    get
+    {
+      if (_instance is null)
+      {
+        Debug.Log("Creating new GameManager Instance");
+        GameObject audioManagerInstance = Instantiate(Resources.Load("AudioManager") as GameObject);
+        DontDestroyOnLoad(audioManagerInstance);
+      }
+
+      return _instance;
+    }
+  }
 
   private void Awake()
   {
@@ -35,10 +50,10 @@ public class AudioManager : MonoBehaviour
 
   }
 
-  private void Start()
-  {
-    Play("MainTheme");
-  }
+  // private void Start()
+  // {
+
+  // }
 
   public void Play(string name)
   {

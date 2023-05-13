@@ -175,7 +175,7 @@ public class PlayerController : PhysicsObject
   {
     if (playerAlive)
     {
-      GameManager.Instance.AudioInstance.Play("PlayerDeath");
+      AudioManager.Instance.Play("PlayerDeath");
       playerAlive = false;
       horizontalMovement = 0;
       Bounce();
@@ -184,6 +184,7 @@ public class PlayerController : PhysicsObject
 
   private void OnDestroy()
   {
+    if (playerAlive) AudioManager.Instance.Play("ShortPlayerDeath");
     if (!GameManager.Instance.GameOver && GameManager.Instance.PlayerLives > 0)
     {
       GameManager.Instance.Respawn();

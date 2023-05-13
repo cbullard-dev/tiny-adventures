@@ -6,7 +6,7 @@ public class FinishController : MonoBehaviour
   {
     if (other.gameObject.tag == "Player")
     {
-      GameManager.Instance.AudioInstance.Play("FinishReached");
+      AudioManager.Instance.Play("FinishReached");
       GameManager.Instance.LoadNextLevel();
     }
   }

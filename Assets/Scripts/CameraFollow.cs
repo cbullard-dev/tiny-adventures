@@ -46,9 +46,4 @@ public class CameraFollow : MonoBehaviour
     Gizmos.color = Color.yellow;
     Gizmos.DrawWireCube(cameraPosition.position, MovementZone);
   }
-
-  public void PlayAudioClip(AudioClip clip)
-  {
-    player.PlayOneShot(clip);
-  }
 }

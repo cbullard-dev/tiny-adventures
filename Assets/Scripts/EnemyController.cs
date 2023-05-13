@@ -80,7 +80,7 @@ public class EnemyController : PhysicsObject
   }
   public void KillEnemy()
   {
-    GameManager.Instance.AudioInstance.Play("EnemyDeath");
+    AudioManager.Instance.Play("EnemyDeath");
     isAlive = false;
     BoxCollider2D collider = this.GetComponent<BoxCollider2D>();
     collider.enabled = false;

@@ -51,6 +51,12 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: ShortPlayerDeath
+    clip: {fileID: 8300000, guid: 7bef7a25f32174fa2a495d999f88c8ca, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   - name: PlayerDeath
     clip: {fileID: 8300000, guid: a0010a1a0c474473b81729eb770c485f, type: 3}
     volume: 0.5
