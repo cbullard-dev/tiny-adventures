@@ -322,7 +322,7 @@ MonoBehaviour:
     m_Bits: 0
   isGrounded: 0
   jump: 0
-  cyoteTime: 0.2
+  coyoteTime: 0.2
   jumpBuffer: 0.2
 --- !u!70 &104367331798029352
 CapsuleCollider2D:

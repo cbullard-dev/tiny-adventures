@@ -24,11 +24,14 @@ public class PlayerController : PhysicsObject
   private Rigidbody2D playerRigidbody;
   private Transform playerTransform;
   private Animator playerAnimator;
+
+  private GameObject SpawnPoint;
+
   private float horizontalMovement;
+
   private bool flipSprite;
   private bool facingRight = true;
   private bool playerAlive = true;
-  private GameObject SpawnPoint;
 
   [SerializeField] private float coyoteTime = 0.2f;
   private float coyoteTimeCounter;
@@ -172,6 +175,7 @@ public class PlayerController : PhysicsObject
   {
     if (playerAlive)
     {
+      GameManager.Instance.AudioInstance.Play("PlayerDeath");
       playerAlive = false;
       horizontalMovement = 0;
       Bounce();

@@ -170,9 +170,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPatrolController: {fileID: 0}
-  PlayerKillZones:
-  - {fileID: 0}
-  - {fileID: 0}
-  EnemyKillZone: {fileID: 0}
   patrolEnemy: 1
   moveSpeed: 2
+  isAlive: 1

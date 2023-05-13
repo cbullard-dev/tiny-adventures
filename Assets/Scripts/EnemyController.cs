@@ -16,6 +16,8 @@ public class EnemyController : PhysicsObject
   private Transform enemyTransform;
   private Animator enemyAnimator;
 
+  private AudioSource enemySounds;
+
   private Vector2 currentTarget;
   private Vector2 nextTarget;
   private Vector2 previousTarget;
@@ -27,6 +29,7 @@ public class EnemyController : PhysicsObject
     enemyTransform = this.GetComponent<Transform>();
     enemyRigidbody = this.GetComponent<Rigidbody2D>();
     enemyAnimator = this.gameObject.GetComponent<Animator>();
+    enemySounds = this.gameObject.GetComponent<AudioSource>();
     if (enemyPatrolController == null) patrolEnemy = false;
     if (enemyPatrolController != null)
     {
@@ -77,6 +80,7 @@ public class EnemyController : PhysicsObject
   }
   public void KillEnemy()
   {
+    GameManager.Instance.AudioInstance.Play("EnemyDeath");
     isAlive = false;
     BoxCollider2D collider = this.GetComponent<BoxCollider2D>();
     collider.enabled = false;

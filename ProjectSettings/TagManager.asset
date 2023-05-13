@@ -12,6 +12,7 @@ TagManager:
   - Traps
   - EnemyKillZone
   - PlayerUICanvas
+  - AudioManager
   layers:
   - Default
   - TransparentFX
