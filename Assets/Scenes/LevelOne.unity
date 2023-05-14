@@ -12422,6 +12422,11 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 748db515349b0ea4bbe1901009ad4bf7, type: 2}
+    - target: {fileID: 1229709025015290051, guid: 2b2dcf4f79d7c47a3bc9fe1fc64c5f5e,
+        type: 3}
+      propertyPath: playerFallGravityModifier
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1229709025015290105, guid: 2b2dcf4f79d7c47a3bc9fe1fc64c5f5e,
         type: 3}
       propertyPath: m_Name
@@ -12481,6 +12486,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1229709025015290111, guid: 2b2dcf4f79d7c47a3bc9fe1fc64c5f5e,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b2dcf4f79d7c47a3bc9fe1fc64c5f5e, type: 3}

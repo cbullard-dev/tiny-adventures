@@ -6,8 +6,14 @@ public class PlayerController : PhysicsObject
 
   PlayerControls controls;
 
+  [Header("Movement")]
   [SerializeField] private float moveSpeed = 2f;
+  [Space(10), Header("Jumping")]
   [SerializeField] private float jumpForce = 15f;
+  [SerializeField] private float coyoteTime = 0.2f;
+  [SerializeField] private float jumpBuffer = 0.2f;
+  [Range(0.5f, 5f)]
+  [SerializeField] private float playerFallGravityModifier = 1;
   [Range(0f, 1f)]
   [SerializeField] private float BounceRate = 0.75f;
 
@@ -27,23 +33,23 @@ public class PlayerController : PhysicsObject
 
   private GameObject SpawnPoint;
 
+  private float defaultGravityScale;
   private float horizontalMovement;
+  private float coyoteTimeCounter;
+  private float jumpBufferCounter;
 
-  private bool flipSprite;
   private bool facingRight = true;
   private bool playerAlive = true;
+  private bool jumping = false;
+  private bool flipSprite;
 
-  [SerializeField] private float coyoteTime = 0.2f;
-  private float coyoteTimeCounter;
-
-  [SerializeField] private float jumpBuffer = 0.2f;
-  private float jumpBufferCounter;
 
   private void Awake()
   {
     playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
     playerTransform = this.gameObject.GetComponent<Transform>();
     playerAnimator = this.gameObject.GetComponent<Animator>();
+    defaultGravityScale = playerRigidbody.gravityScale;
     groundCombinedLayer = groundLayer | platformLayer;
     SpawnPoint = GameObject.FindWithTag("Respawn");
   }
@@ -53,6 +59,7 @@ public class PlayerController : PhysicsObject
     base.Update();
     jumpBufferCounter -= Time.deltaTime;
     isGrounded = IsGrounded();
+    PlayerGravity();
     CoyoteTime();
     Jump();
 
@@ -85,7 +92,13 @@ public class PlayerController : PhysicsObject
   {
     if (context.performed)
     {
+      jumping = true;
       jumpBufferCounter = jumpBuffer;
+    }
+
+    if (context.canceled)
+    {
+      jumping = false;
     }
 
     if (context.canceled && playerRigidbody.velocity.y > 0f)
@@ -112,6 +125,7 @@ public class PlayerController : PhysicsObject
 
   private void PlayerJump()
   {
+    playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
     playerRigidbody.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     jumpBufferCounter = 0f;
   }
@@ -169,6 +183,18 @@ public class PlayerController : PhysicsObject
     }
 
     return false;
+  }
+
+  private void PlayerGravity()
+  {
+    if (!isGrounded && !jumping)
+    {
+      playerRigidbody.gravityScale = defaultGravityScale * playerFallGravityModifier;
+    }
+    else
+    {
+      playerRigidbody.gravityScale = defaultGravityScale;
+    }
   }
 
   public void KillPlayer()
