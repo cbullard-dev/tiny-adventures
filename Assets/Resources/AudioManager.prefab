@@ -63,6 +63,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: PlayerJump
+    clip: {fileID: 8300000, guid: 43cff715e61cb4ccbb56eedadb3a7e31, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   - name: EnemyDeath
     clip: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
     volume: 0.5

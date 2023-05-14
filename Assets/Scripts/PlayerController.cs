@@ -125,6 +125,7 @@ public class PlayerController : PhysicsObject
 
   private void PlayerJump()
   {
+    AudioManager.Instance.Play("PlayerJump");
     playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
     playerRigidbody.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     jumpBufferCounter = 0f;
