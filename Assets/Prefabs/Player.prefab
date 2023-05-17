@@ -148,10 +148,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  jumpForce: 22
+  jumpForce: 21
   coyoteTime: 0.2
   jumpBuffer: 0.2
-  playerFallGravityModifier: 3
+  playerFallGravityModifier: 2.5
   BounceRate: 0.7
   groundLayer:
     serializedVersion: 2
