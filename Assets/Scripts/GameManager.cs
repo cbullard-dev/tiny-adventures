@@ -13,6 +13,16 @@ public class GameManager : MonoBehaviour
 
   [HideInInspector] public AudioManager AudioInstance;
 
+  public bool isPaused { get; private set; }
+  public bool PlayerAlive { get; set; }
+  public bool GameOver { get; set; }
+
+  public int PlayerScore { get; set; } = 0;
+  public int PlayerLives { get; set; }
+  public int TotalScenes { get; private set; }
+
+
+
   public static GameManager Instance
   {
     get
@@ -36,16 +46,13 @@ public class GameManager : MonoBehaviour
     AudioInstance = FindObjectOfType<AudioManager>();
   }
 
+
+
   private void Start()
   {
     AudioManager.Instance.Play("MainTheme");
   }
 
-  public int PlayerScore { get; set; } = 0;
-  public int PlayerLives { get; set; }
-  public int TotalScenes { get; private set; }
-  public bool PlayerAlive { get; set; }
-  public bool GameOver { get; set; }
 
   public void LoadLevel(int levelId)
   {
@@ -95,6 +102,32 @@ public class GameManager : MonoBehaviour
     else
     {
       Debug.LogError("Tried to load a unavailable scene");
+    }
+  }
+
+  private bool CanPause()
+  {
+    if (SceneManager.GetActiveScene().buildIndex != 0) return true;
+    return false;
+  }
+
+  public void Pause()
+  {
+    if (!isPaused && CanPause())
+    {
+      Instance.isPaused = true;
+      Time.timeScale = 0;
+      Debug.Log("IsPaused: " + GameManager.Instance.isPaused);
+    }
+  }
+
+  public void Resume()
+  {
+    if (isPaused)
+    {
+      Time.timeScale = 1;
+      Instance.isPaused = false;
+      Debug.Log("IsPaused: " + GameManager.Instance.isPaused);
     }
   }
 }

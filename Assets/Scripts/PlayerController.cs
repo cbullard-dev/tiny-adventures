@@ -107,6 +107,21 @@ public class PlayerController : PhysicsObject
     }
   }
 
+  public void HandlePause(InputAction.CallbackContext context)
+  {
+    if (context.performed && !GameManager.Instance.isPaused)
+    {
+      Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.isPaused);
+      GameManager.Instance.Pause();
+    }
+
+    if (context.performed && GameManager.Instance.isPaused)
+    {
+      Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.isPaused);
+      GameManager.Instance.Resume();
+    }
+  }
+
   private void AnimationHandler()
   {
     playerAnimator.SetFloat("xVelocity", Mathf.Abs(horizontalMovement));
