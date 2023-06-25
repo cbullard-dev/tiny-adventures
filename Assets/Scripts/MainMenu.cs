@@ -3,14 +3,14 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
+  public void QuitGame()
+  {
+    Application.Quit();
+  }
 
-    public void PlayGame()
-    {
-        GameManager.Instance.GameOver = false;
-        GameManager.Instance.LoadLevel(1);
-    }
+  public void PlayGame()
+  {
+    GameManager.Instance.GameOver = false;
+    GameManager.Instance.LoadLevel(2);
+  }
 }

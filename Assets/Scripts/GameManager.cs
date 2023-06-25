@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
   [HideInInspector] public AudioManager AudioInstance;
 
   public bool isPaused { get; private set; }
+  public bool isMainMenu { get; private set; }
   public bool PlayerAlive { get; set; }
   public bool GameOver { get; set; }
 
@@ -40,8 +41,16 @@ public class GameManager : MonoBehaviour
 
   private void Awake()
   {
-    _instance = this;
+    if (_instance is null && _instance != this)
+    {
+      _instance = this;
+    }
+    else
+    {
+      Destroy(this.gameObject);
+    }
     TotalScenes = SceneManager.sceneCountInBuildSettings - 1;
+    Debug.Log(TotalScenes);
     PlayerLives = PlayerDefaultLives;
     AudioInstance = FindObjectOfType<AudioManager>();
   }
@@ -61,7 +70,7 @@ public class GameManager : MonoBehaviour
 
   public void LoadMainMenu()
   {
-    GameManager.Instance.LoadLevel(0);
+    GameManager.Instance.LoadLevel(1);
     GameManager.Instance.PlayerLives = PlayerDefaultLives;
   }
 
@@ -87,6 +96,7 @@ public class GameManager : MonoBehaviour
   public void LoadNextLevel()
   {
     int currentLevel = SceneManager.GetActiveScene().buildIndex;
+    Debug.Log("current level: " + currentLevel + " Total scene: " + TotalScenes);
 
     if (currentLevel == TotalScenes)
     {
