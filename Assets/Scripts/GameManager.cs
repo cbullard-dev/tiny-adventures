@@ -117,27 +117,31 @@ public class GameManager : MonoBehaviour
 
   private bool CanPause()
   {
-    if (SceneManager.GetActiveScene().buildIndex != 0) return true;
+    int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+    if (currentSceneIndex != 0 && currentSceneIndex != 1) return true;
     return false;
   }
 
   public void Pause()
   {
+    Debug.Log("127: Can Pause " + CanPause());
+    Debug.Log("128: Not paused &  Can Pause: " + (!isPaused && CanPause()));
     if (!isPaused && CanPause())
     {
       Instance.isPaused = true;
       Time.timeScale = 0;
-      Debug.Log("IsPaused: " + GameManager.Instance.isPaused);
+      Debug.Log("132: IsPaused: " + GameManager.Instance.isPaused);
     }
   }
 
   public void Resume()
   {
+    Debug.Log("138: Is paused: " + isPaused);
     if (isPaused)
     {
       Time.timeScale = 1;
       Instance.isPaused = false;
-      Debug.Log("IsPaused: " + GameManager.Instance.isPaused);
+      Debug.Log("143: IsPaused: " + GameManager.Instance.isPaused);
     }
   }
 }

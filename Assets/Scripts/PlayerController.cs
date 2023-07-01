@@ -114,8 +114,7 @@ public class PlayerController : PhysicsObject
       Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.isPaused);
       GameManager.Instance.Pause();
     }
-
-    if (context.performed && GameManager.Instance.isPaused)
+    else if (context.performed && GameManager.Instance.isPaused)
     {
       Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.isPaused);
       GameManager.Instance.Resume();
