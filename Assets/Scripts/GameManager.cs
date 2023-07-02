@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
   public int PlayerLives { get; set; }
   public int TotalScenes { get; private set; }
 
+  private int[] pauseableScenes = { 0, 1, 4 };
+
 
 
   public static GameManager Instance
@@ -30,7 +33,6 @@ public class GameManager : MonoBehaviour
     {
       if (_instance is null)
       {
-        Debug.Log("Creating new GameManager Instance");
         GameObject gameManagerInstance = Instantiate(Resources.Load("GameManager") as GameObject);
         DontDestroyOnLoad(gameManagerInstance);
       }
@@ -50,7 +52,6 @@ public class GameManager : MonoBehaviour
       Destroy(this.gameObject);
     }
     TotalScenes = SceneManager.sceneCountInBuildSettings - 1;
-    Debug.Log(TotalScenes);
     PlayerLives = PlayerDefaultLives;
     AudioInstance = FindObjectOfType<AudioManager>();
   }
@@ -97,17 +98,14 @@ public class GameManager : MonoBehaviour
   public void LoadNextLevel()
   {
     int currentLevel = SceneManager.GetActiveScene().buildIndex;
-    Debug.Log("current level: " + currentLevel + " Total scene: " + TotalScenes);
 
     if (currentLevel == TotalScenes)
     {
       GameManager.Instance.GameOver = true;
-      Debug.Log("Loading main menu");
       GameManager.Instance.LoadMainMenu();
     }
     else if (currentLevel < TotalScenes)
     {
-      Debug.Log("Loading next level");
       GameManager.Instance.LoadLevel(currentLevel + 1);
     }
     else
@@ -119,30 +117,26 @@ public class GameManager : MonoBehaviour
   private bool CanPause()
   {
     int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-    if (currentSceneIndex != 0 && currentSceneIndex != 1) return true;
+    int index = Array.IndexOf(pauseableScenes, currentSceneIndex);
+    if (index < 0) return true;
     return false;
   }
 
   public void Pause()
   {
-    Debug.Log("127: Can Pause " + CanPause());
-    Debug.Log("128: Not paused &  Can Pause: " + (!isPaused && CanPause()));
     if (!isPaused && CanPause())
     {
       Instance.isPaused = true;
       Time.timeScale = 0;
-      Debug.Log("132: IsPaused: " + GameManager.Instance.isPaused);
     }
   }
 
   public void Resume()
   {
-    Debug.Log("138: Is paused: " + isPaused);
     if (isPaused)
     {
       Time.timeScale = 1;
       Instance.isPaused = false;
-      Debug.Log("143: IsPaused: " + GameManager.Instance.isPaused);
     }
   }
 }
