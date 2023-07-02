@@ -26,6 +26,7 @@ public class GameUIManager : MonoBehaviour
 
   public void MainMenu()
   {
+    GameManager.Instance.Resume();
     GameManager.Instance.LoadMainMenu();
   }
 

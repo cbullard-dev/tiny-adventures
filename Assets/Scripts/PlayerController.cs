@@ -82,6 +82,7 @@ public class PlayerController : PhysicsObject
 
   public void Move(InputAction.CallbackContext context)
   {
+    if (GameManager.Instance.isPaused) return;
     if (playerAlive)
     {
       horizontalMovement = context.ReadValue<float>();
@@ -90,6 +91,7 @@ public class PlayerController : PhysicsObject
 
   public void HandleJump(InputAction.CallbackContext context)
   {
+    if (GameManager.Instance.isPaused) return;
     if (context.performed)
     {
       jumping = true;
@@ -112,6 +114,7 @@ public class PlayerController : PhysicsObject
     if (context.performed && !GameManager.Instance.isPaused)
     {
       Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.isPaused);
+      horizontalMovement = 0;
       GameManager.Instance.Pause();
     }
     else if (context.performed && GameManager.Instance.isPaused)
@@ -223,19 +226,15 @@ public class PlayerController : PhysicsObject
     }
   }
 
-  private void OnDestroy()
+  public void DestroyPlayer()
   {
     if (playerAlive) AudioManager.Instance.Play("ShortPlayerDeath");
-    if (!GameManager.Instance.GameOver && GameManager.Instance.PlayerLives > 0)
-    {
-      GameManager.Instance.Respawn();
-    }
-    else if (GameManager.Instance.PlayerLives <= 0)
-    {
-      GameManager.Instance.GameOver = true;
-      GameManager.Instance.LoadMainMenu();
-    }
   }
+
+  // private void OnDestroy()
+  // {
+
+  // }
 
   public void Bounce()
   {
