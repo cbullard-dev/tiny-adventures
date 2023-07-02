@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
   public void PlayGame()
   {
     GameManager.Instance.GameOver = false;
+    GameManager.Instance.PlayerScore = 0;
     GameManager.Instance.LoadLevel(2);
   }
 }
