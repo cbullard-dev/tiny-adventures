@@ -231,10 +231,10 @@ public class PlayerController : PhysicsObject
     if (playerAlive) AudioManager.Instance.Play("ShortPlayerDeath");
   }
 
-  // private void OnDestroy()
-  // {
-
-  // }
+  public bool PlayerAlive()
+  {
+    return playerAlive;
+  }
 
   public void Bounce()
   {

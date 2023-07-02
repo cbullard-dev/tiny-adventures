@@ -19,7 +19,7 @@ public class CoinManager : MonoBehaviour
 
   private void OnTriggerEnter2D(Collider2D other)
   {
-    if (other.gameObject.tag != "Player") return;
+    if (other.gameObject.tag != "Player" || !other.GetComponent<PlayerController>().PlayerAlive()) return;
     AudioManager.Instance.Play(coinName);
     GameManager.Instance.PlayerScore += coinValue;
     Destroy(this.gameObject);
