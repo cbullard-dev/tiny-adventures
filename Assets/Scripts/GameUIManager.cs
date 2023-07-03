@@ -8,10 +8,11 @@ public class GameUIManager : MonoBehaviour
   [SerializeField] private TextMeshProUGUI scoreText;
   [SerializeField] private Image healthBar;
   [SerializeField] private GameObject PauseMenu, resumeButton;
+  [SerializeField] private Slider volumeSlider;
   // Start is called before the first frame update
-  void Start()
+  void Awake()
   {
-
+    volumeSlider.value = AudioListener.volume;
   }
 
   // Update is called once per frame
@@ -31,6 +32,11 @@ public class GameUIManager : MonoBehaviour
   public void Resume()
   {
     GameManager.Instance.Resume();
+  }
+
+  public void ChangeVolume(float volume)
+  {
+    AudioListener.volume = volume;
   }
 
   private void GamePaused()
