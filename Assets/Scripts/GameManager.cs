@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
 
   public void LoadLevel(int levelId)
   {
+    PlayerLives = PlayerDefaultLives;
     SceneManager.LoadScene(levelId);
   }
 
