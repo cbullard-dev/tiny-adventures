@@ -82,7 +82,7 @@ public class PlayerController : PhysicsObject
 
   public void Move(InputAction.CallbackContext context)
   {
-    if (GameManager.Instance.isPaused) return;
+    if (GameManager.Instance.IsPaused) return;
     if (playerAlive)
     {
       horizontalMovement = context.ReadValue<float>();
@@ -91,7 +91,7 @@ public class PlayerController : PhysicsObject
 
   public void HandleJump(InputAction.CallbackContext context)
   {
-    if (GameManager.Instance.isPaused) return;
+    if (GameManager.Instance.IsPaused) return;
     if (context.performed)
     {
       jumping = true;
@@ -111,15 +111,15 @@ public class PlayerController : PhysicsObject
 
   public void HandlePause(InputAction.CallbackContext context)
   {
-    if (context.performed && !GameManager.Instance.isPaused)
+    if (context.performed && !GameManager.Instance.IsPaused)
     {
-      Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.isPaused);
+      Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.IsPaused);
       horizontalMovement = 0;
       GameManager.Instance.Pause();
     }
-    else if (context.performed && GameManager.Instance.isPaused)
+    else if (context.performed && GameManager.Instance.IsPaused)
     {
-      Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.isPaused);
+      Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.IsPaused);
       GameManager.Instance.Resume();
     }
   }

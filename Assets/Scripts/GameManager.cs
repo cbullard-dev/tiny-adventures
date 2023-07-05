@@ -1,21 +1,24 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
 
+  // GameManager as singleton
   private static GameManager _instance;
 
-  [SerializeField] private int PlayerDefaultLives = 3;
+  // Configure the default number of player lives
+  [FormerlySerializedAs("PlayerDefaultLives")] [SerializeField] private int playerDefaultLives = 3;
   [SerializeField] private GameObject playerPrefab;
 
-  [HideInInspector] public AudioManager AudioInstance;
+  public int PlayerHardcoreLives { get; } = 1;
 
-  public bool isPaused { get; private set; }
-  public bool isMainMenu { get; private set; }
+  [HideInInspector] public AudioManager audioInstance;
+
+  public bool IsPaused { get; private set; }
+  public bool IsMainMenu { get; private set; }
   public bool PlayerAlive { get; set; }
   public bool GameOver { get; set; }
 
@@ -23,7 +26,7 @@ public class GameManager : MonoBehaviour
   public int PlayerLives { get; set; }
   public int TotalScenes { get; private set; }
 
-  private int[] pauseableScenes = { 0, 1, 4 };
+  private readonly int[] _pauseableScenes = { 0, 1, 4 };
 
 
 
@@ -31,11 +34,9 @@ public class GameManager : MonoBehaviour
   {
     get
     {
-      if (_instance is null)
-      {
-        GameObject gameManagerInstance = Instantiate(Resources.Load("GameManager") as GameObject);
-        DontDestroyOnLoad(gameManagerInstance);
-      }
+      if (_instance is not null) return _instance;
+      GameObject gameManagerInstance = Instantiate(Resources.Load("GameManager") as GameObject);
+      DontDestroyOnLoad(gameManagerInstance);
 
       return _instance;
     }
@@ -52,8 +53,8 @@ public class GameManager : MonoBehaviour
       Destroy(this.gameObject);
     }
     TotalScenes = SceneManager.sceneCountInBuildSettings - 1;
-    PlayerLives = PlayerDefaultLives;
-    AudioInstance = FindObjectOfType<AudioManager>();
+    PlayerLives = playerDefaultLives;
+    audioInstance = FindObjectOfType<AudioManager>();
   }
 
 
@@ -66,24 +67,24 @@ public class GameManager : MonoBehaviour
 
   public void LoadLevel(int levelId)
   {
-    PlayerLives = PlayerDefaultLives;
+    PlayerLives = playerDefaultLives;
     SceneManager.LoadScene(levelId);
   }
 
   public void LoadMainMenu()
   {
     GameManager.Instance.LoadLevel(1);
-    GameManager.Instance.PlayerLives = PlayerDefaultLives;
+    GameManager.Instance.PlayerLives = playerDefaultLives;
   }
 
   public void Respawn()
   {
     GameManager.Instance.PlayerLives--;
+    GameObject respawn = GameObject.FindWithTag("Respawn");
+    GameObject player = GameObject.FindWithTag("Player");
     if (_instance.PlayerLives > 0)
     {
-      GameObject respawn = GameObject.FindWithTag("Respawn");
       GameManager.Instance.GameOver = false;
-      GameObject player = GameObject.FindWithTag("Player");
       if (respawn != null)
       {
         Instantiate(playerPrefab, respawn.transform.position, respawn.transform.rotation);
@@ -91,7 +92,7 @@ public class GameManager : MonoBehaviour
     }
     else
     {
-      GameManager.Instance.PlayerLives = PlayerDefaultLives;
+      GameManager.Instance.PlayerLives = playerDefaultLives;
       GameManager.Instance.LoadMainMenu();
     }
   }
@@ -118,26 +119,21 @@ public class GameManager : MonoBehaviour
   private bool CanPause()
   {
     int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-    int index = Array.IndexOf(pauseableScenes, currentSceneIndex);
-    if (index < 0) return true;
-    return false;
+    int index = Array.IndexOf(_pauseableScenes, currentSceneIndex);
+    return index < 0;
   }
 
   public void Pause()
   {
-    if (!isPaused && CanPause())
-    {
-      Instance.isPaused = true;
-      Time.timeScale = 0;
-    }
+    if (IsPaused || !CanPause()) return;
+    Instance.IsPaused = true;
+    Time.timeScale = 0;
   }
 
   public void Resume()
   {
-    if (isPaused)
-    {
-      Time.timeScale = 1;
-      Instance.isPaused = false;
-    }
+    if (!IsPaused) return;
+    Time.timeScale = 1;
+    Instance.IsPaused = false;
   }
 }

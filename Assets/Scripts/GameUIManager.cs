@@ -41,13 +41,13 @@ public class GameUIManager : MonoBehaviour
 
   private void GamePaused()
   {
-    if (GameManager.Instance.isPaused)
+    if (GameManager.Instance.IsPaused)
     {
       PauseMenu.SetActive(true);
       SetMenuInput(resumeButton);
     }
 
-    if (!GameManager.Instance.isPaused)
+    if (!GameManager.Instance.IsPaused)
     {
       PauseMenu.SetActive(false);
     }
