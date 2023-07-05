@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
   [FormerlySerializedAs("PlayerDefaultLives")] [SerializeField] private int playerDefaultLives = 3;
   [SerializeField] private GameObject playerPrefab;
 
+  // ToDo: Implement a hardcore game mode
   public int PlayerHardcoreLives { get; } = 1;
 
   [HideInInspector] public AudioManager audioInstance;
