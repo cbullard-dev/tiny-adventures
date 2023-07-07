@@ -1,35 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraFollow : MonoBehaviour
 {
   [SerializeField] private Transform cameraPosition;
   [SerializeField] private Transform playerPosition;
-  [SerializeField] private Vector3 MovementZone;
+  [SerializeField] private Vector3 movementZone;
   [SerializeField]
   [Min(-100)]
   private float xMinPoint = -20;
 
   private float yMinPoint = 6;
 
-  private AudioSource player;
+  private AudioSource _player;
 
 
-  void awake()
+  private void Awake()
   {
-    player = this.gameObject.AddComponent<AudioSource>() as AudioSource;
+    _player = this.gameObject.AddComponent<AudioSource>() as AudioSource;
     playerPosition = GameObject.FindWithTag("Player").GetComponent<Transform>();
   }
 
   // Start is called before the first frame update
-  void Start()
+  private void Start()
   {
     this.transform.position = new Vector3(playerPosition.position.x, playerPosition.position.y > yMinPoint ? playerPosition.position.y : yMinPoint, this.transform.position.z);
   }
 
   // Update is called once per frame
-  void Update()
+  private void Update()
   {
     if (playerPosition == null && GameObject.FindWithTag("Player"))
     {
@@ -44,6 +45,6 @@ public class CameraFollow : MonoBehaviour
   private void OnDrawGizmos()
   {
     Gizmos.color = Color.yellow;
-    Gizmos.DrawWireCube(cameraPosition.position, MovementZone);
+    Gizmos.DrawWireCube(cameraPosition.position, movementZone);
   }
 }

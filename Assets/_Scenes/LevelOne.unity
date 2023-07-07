@@ -5388,27 +5388,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5026679451453913955, guid: 90c7086e4466e435e89ba8708553ed12,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 447701633, guid: 8785ee1305302724d9a8c25a30c76542,
-        type: 3}
-    - target: {fileID: 6550256045808866683, guid: 90c7086e4466e435e89ba8708553ed12,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 0.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 6550256045808866683, guid: 90c7086e4466e435e89ba8708553ed12,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 2.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 6550256045808866683, guid: 90c7086e4466e435e89ba8708553ed12,
-        type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6625867498754181284, guid: 90c7086e4466e435e89ba8708553ed12,
         type: 3}
       propertyPath: m_RootOrder
@@ -19699,33 +19678,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 760645658}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2107226198 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8198391597456075524, guid: 90c7086e4466e435e89ba8708553ed12,
-    type: 3}
-  m_PrefabInstance: {fileID: 777000682}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2107226203
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107226198}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 821c5d1f625fbbd4aad38ba331e2251f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &2117186718 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9193971065961703113, guid: 0d4942951b6de4e5b84f57f90e7f0c36,
