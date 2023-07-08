@@ -25,6 +25,6 @@ public class MainMenu : MonoBehaviour
   {
     GameManager.Instance.GameOver = false;
     GameManager.Instance.PlayerScore = 0;
-    GameManager.Instance.LoadLevel(2);
+    GameManager.Instance.LoadLevelByIndex(2);
   }
 }

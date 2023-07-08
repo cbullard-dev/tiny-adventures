@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
   [FormerlySerializedAs("PlayerDefaultLives")] [SerializeField] private int playerDefaultLives = 3;
   [SerializeField] private GameObject playerPrefab;
 
+
   // ToDo: Implement a hardcore game mode
   public int PlayerHardcoreLives { get; } = 1;
 
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
 
   public bool IsPaused { get; private set; }
   public bool IsMainMenu { get; private set; }
+  public bool IsHardcore { get; private set; } = false;
   public bool PlayerAlive { get; set; }
   public bool GameOver { get; set; }
 
@@ -28,8 +30,6 @@ public class GameManager : MonoBehaviour
   public int TotalScenes { get; private set; }
 
   private readonly int[] _pauseableScenes = { 0, 1, 4 };
-
-
 
   public static GameManager Instance
   {
@@ -66,15 +66,26 @@ public class GameManager : MonoBehaviour
   }
 
 
-  public void LoadLevel(int levelId)
+  public void LoadLevelByIndex(int levelId)
   {
-    PlayerLives = playerDefaultLives;
+    ResetPlayerLives();
     SceneManager.LoadScene(levelId);
+  }
+
+  public void LoadLevelByName(string levelName)
+  {
+    ResetPlayerLives();
+    SceneManager.LoadScene(levelName);
+  }
+
+  private void ResetPlayerLives()
+  {
+    PlayerLives = IsHardcore ? PlayerHardcoreLives : playerDefaultLives;
   }
 
   public void LoadMainMenu()
   {
-    GameManager.Instance.LoadLevel(1);
+    GameManager.Instance.LoadLevelByIndex(1);
     GameManager.Instance.PlayerLives = playerDefaultLives;
   }
 
@@ -100,21 +111,27 @@ public class GameManager : MonoBehaviour
 
   public void LoadNextLevel()
   {
-    int currentLevel = SceneManager.GetActiveScene().buildIndex;
+    int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
 
-    if (currentLevel == TotalScenes)
+    if (currentLevelIndex == TotalScenes)
     {
       GameManager.Instance.GameOver = true;
       GameManager.Instance.LoadMainMenu();
     }
-    else if (currentLevel < TotalScenes)
+    else if (currentLevelIndex < TotalScenes)
     {
-      GameManager.Instance.LoadLevel(currentLevel + 1);
+      GameManager.Instance.LoadLevelByIndex(currentLevelIndex + 1);
     }
     else
     {
       Debug.LogError("Tried to load a unavailable scene");
     }
+  }
+
+  public bool PlayableLevel(int level)
+  {
+    int index = Array.IndexOf(_pauseableScenes, level);
+    return index < 0;
   }
 
   private bool CanPause()
