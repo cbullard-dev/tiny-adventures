@@ -12,12 +12,9 @@ public class AudioManager : MonoBehaviour
   {
     get
     {
-      if (_instance is null)
-      {
-        Debug.Log("Creating new GameManager Instance");
-        GameObject audioManagerInstance = Instantiate(Resources.Load("AudioManager") as GameObject);
-        DontDestroyOnLoad(audioManagerInstance);
-      }
+      if (_instance is not null) return _instance;
+      GameObject audioManagerInstance = Instantiate(Resources.Load("AudioManager") as GameObject);
+      DontDestroyOnLoad(audioManagerInstance);
 
       return _instance;
     }
@@ -26,10 +23,7 @@ public class AudioManager : MonoBehaviour
   private void Awake()
   {
     _instance = this;
-
     DontDestroyOnLoad(this.gameObject);
-
-
 
     foreach (Sound sound in sounds)
     {
@@ -39,21 +33,11 @@ public class AudioManager : MonoBehaviour
       sound.source.pitch = sound.pitch;
       sound.source.loop = sound.loop;
     }
-
   }
 
-  // private void Start()
-  // {
-
-  // }
-
-  public void Play(string name)
+  public void Play(string soundName)
   {
-    Sound sound = Array.Find(sounds, sound => sound.name == name);
-    if (sound == null) return;
-    sound.source.Play();
+    Sound sound = Array.Find(sounds, sound => sound.name == soundName);
+    sound?.source.Play();
   }
-
-
-
 }
