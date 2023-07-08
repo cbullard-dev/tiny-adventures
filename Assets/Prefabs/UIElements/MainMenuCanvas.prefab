@@ -198,29 +198,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6104494005519601437}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 6104494005519601432}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: LevelsMenu
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 6104494003597407030}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6104494005117605701}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &6104494003599861324
 GameObject:
@@ -1129,25 +1117,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6104494005519601437}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 6104494005519601432}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: OptionsMenu
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6104494003936347262}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 6104494003818056857}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1188,7 +1164,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1416,7 +1392,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23068422, y: 0.23817462}
   m_AnchorMax: {x: 0.7703158, y: 0.768}
-  m_AnchoredPosition: {x: -0.49993902, y: -1.999939}
+  m_AnchoredPosition: {x: -0.5, y: -1.999939}
   m_SizeDelta: {x: -3, y: -4}
   m_Pivot: {x: 0.49999997, y: 0.5}
 --- !u!223 &6104494003920763186
@@ -1622,7 +1598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6104494003936347261
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3699,7 +3675,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5023,7 +4999,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6104494005519601436
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5123,12 +5099,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventSystem: {fileID: 0}
-  mainMenu: {fileID: 0}
-  optionsMenu: {fileID: 0}
-  levelSelectMenu: {fileID: 0}
-  mainMenuInitialButton: {fileID: 0}
-  optionsInitialButton: {fileID: 0}
-  levelSelectInitialButton: {fileID: 0}
+  mainMenu: {fileID: 6104494005519601437}
+  optionsMenu: {fileID: 6104494003936347262}
+  levelSelectMenu: {fileID: 6104494005117605701}
+  mainMenuInitialButton: {fileID: 6104494004452400417}
+  optionsInitialButton: {fileID: 6104494003757047169}
+  levelSelectInitialButton: {fileID: 6104494004054770604}
 --- !u!1 &6104494005559061154
 GameObject:
   m_ObjectHideFlags: 0
@@ -5412,7 +5388,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 174001679883791954}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6104494004054770604}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e148734fcb8042169f69632530512b7, type: 3}
@@ -5421,6 +5397,12 @@ MonoBehaviour:
 --- !u!224 &6104494004054770603 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6259345352309386745, guid: ed6d7986a40294a58a971c895a1cafa1,
+    type: 3}
+  m_PrefabInstance: {fileID: 174001679883791954}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6104494004054770604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6259345352309386750, guid: ed6d7986a40294a58a971c895a1cafa1,
     type: 3}
   m_PrefabInstance: {fileID: 174001679883791954}
   m_PrefabAsset: {fileID: 0}
@@ -5555,7 +5537,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 6104494005117605701}
+      objectReference: {fileID: 6104494005519601432}
     - target: {fileID: 8345872881564098272, guid: 9471ea0bcc38b4e3a846de76ee4d85c0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -6375,7 +6357,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 6104494003936347262}
+      objectReference: {fileID: 6104494005519601432}
     - target: {fileID: 8345872881564098272, guid: 9471ea0bcc38b4e3a846de76ee4d85c0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
