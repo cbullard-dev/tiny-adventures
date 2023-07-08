@@ -8,7 +8,7 @@ public class GameUIManager : MonoBehaviour
 {
   [SerializeField] private TextMeshProUGUI scoreText;
   [SerializeField] private Image healthBar;
-  [FormerlySerializedAs("PauseMenu")] [SerializeField] private GameObject pauseMenu;
+  [SerializeField] private GameObject pauseMenu;
   [SerializeField] private GameObject resumeButton;
 
   [SerializeField] private Slider volumeSlider;

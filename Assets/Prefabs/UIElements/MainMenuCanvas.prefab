@@ -5122,6 +5122,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ec7cb78cf7d19e981d85c26f1ed430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
+  mainMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
+  levelSelectMenu: {fileID: 0}
+  mainMenuInitialButton: {fileID: 0}
+  optionsInitialButton: {fileID: 0}
+  levelSelectInitialButton: {fileID: 0}
 --- !u!1 &6104494005559061154
 GameObject:
   m_ObjectHideFlags: 0
@@ -6374,11 +6381,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 6104494005519601437}
-    - target: {fileID: 8345872881564098272, guid: 9471ea0bcc38b4e3a846de76ee4d85c0,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
     - target: {fileID: 8345872881564098272, guid: 9471ea0bcc38b4e3a846de76ee4d85c0,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName

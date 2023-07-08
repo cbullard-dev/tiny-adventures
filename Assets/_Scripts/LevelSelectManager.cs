@@ -21,6 +21,7 @@ public class LevelSelectManager : MonoBehaviour
 
     private static void SelectLevel(string levelName)
     {
+        GameManager.Instance.GameOver = false;
         GameManager.Instance.LoadLevelByName(levelName);
     }
     

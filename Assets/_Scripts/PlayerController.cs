@@ -29,7 +29,7 @@ public class PlayerController : PhysicsObject
   [ReadOnly, SerializeField] private bool isGrounded;
   [ReadOnly, SerializeField] private bool jump;
 
-  private Rigidbody2D _playerRigidbody;
+  private Rigidbody2D _playerRigidbody2D;
   private Transform _playerTransform;
   private Animator _playerAnimator;
 
@@ -42,16 +42,22 @@ public class PlayerController : PhysicsObject
 
   private bool _facingRight = true;
   private bool _playerAlive = true;
-  private bool _jumping = false;
+  private bool _jumping;
   private bool _flipSprite;
+  
+  private static readonly int XVelocity = Animator.StringToHash("xVelocity");
+  private static readonly int Grounded = Animator.StringToHash("isGrounded");
+  private static readonly int IsAlive = Animator.StringToHash("isAlive");
+  private CapsuleCollider2D _playerCapsuleCollider2D;
 
 
   private void Awake()
   {
-    _playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+    _playerCapsuleCollider2D = this.gameObject.GetComponent<CapsuleCollider2D>();
+    _playerRigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
     _playerTransform = this.gameObject.GetComponent<Transform>();
     _playerAnimator = this.gameObject.GetComponent<Animator>();
-    _defaultGravityScale = _playerRigidbody.gravityScale;
+    _defaultGravityScale = _playerRigidbody2D.gravityScale;
     groundCombinedLayer = groundLayer | platformLayer;
     _spawnPoint = GameObject.FindWithTag("Respawn");
   }
@@ -59,6 +65,9 @@ public class PlayerController : PhysicsObject
   protected override void Update()
   {
     base.Update();
+    
+    
+    
     _jumpBufferCounter -= Time.deltaTime;
     isGrounded = IsGrounded();
     PlayerGravity();
@@ -79,7 +88,7 @@ public class PlayerController : PhysicsObject
 
   private void FixedUpdate()
   {
-    _playerRigidbody.velocity = new Vector2(_horizontalMovement * moveSpeed, _playerRigidbody.velocity.y);
+    _playerRigidbody2D.velocity = new Vector2(_horizontalMovement * moveSpeed, _playerRigidbody2D.velocity.y);
   }
 
   public void Move(InputAction.CallbackContext context)
@@ -105,7 +114,7 @@ public class PlayerController : PhysicsObject
       _jumping = false;
     }
 
-    if (context.canceled && _playerRigidbody.velocity.y > 0f)
+    if (context.canceled && _playerRigidbody2D.velocity.y > 0f)
     {
       JumpCancel();
     }
@@ -128,31 +137,33 @@ public class PlayerController : PhysicsObject
 
   private void AnimationHandler()
   {
-    _playerAnimator.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
-    _playerAnimator.SetBool("isGrounded", isGrounded);
-    _playerAnimator.SetBool("isAlive", _playerAlive);
+    _playerAnimator.SetFloat(XVelocity, Mathf.Abs(_horizontalMovement));
+    _playerAnimator.SetBool(Grounded, isGrounded);
+    _playerAnimator.SetBool(IsAlive, _playerAlive);
   }
 
   private void JumpAnimationHandler()
   {
-    if (!_playerAnimator.GetBool("isGrounded"))
+    if (!_playerAnimator.GetBool(Grounded))
     {
-      _playerAnimator.SetBool("isGrounded", true);
-      _playerAnimator.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
+      _playerAnimator.SetBool(Grounded, true);
+      _playerAnimator.SetFloat(XVelocity, Mathf.Abs(_horizontalMovement));
     }
   }
 
   private void PlayerJump()
   {
     AudioManager.Instance.Play("PlayerJump");
-    _playerRigidbody.velocity = new Vector2(_playerRigidbody.velocity.x, 0);
-    _playerRigidbody.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    _playerRigidbody2D.velocity = new Vector2(_playerRigidbody2D.velocity.x, 0);
+    _playerRigidbody2D.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     _jumpBufferCounter = 0f;
   }
 
   private void JumpCancel()
   {
-    _playerRigidbody.velocity = new Vector2(_playerRigidbody.velocity.x, _playerRigidbody.velocity.y * 0.5f);
+    Vector2 playerVelocity = _playerRigidbody2D.velocity;
+    playerVelocity = new Vector2(playerVelocity.x, playerVelocity.y * 0.5f);
+    _playerRigidbody2D.velocity = playerVelocity;
     _coyoteTimeCounter = 0f;
   }
 
@@ -196,24 +207,21 @@ public class PlayerController : PhysicsObject
 
   private bool IsGrounded()
   {
-    RaycastHit2D hit = Physics2D.Raycast(new Vector2(this.transform.position.x, this.transform.position.y - this.gameObject.GetComponent<CapsuleCollider2D>().size.y * 0.5f), Vector2.down, 0.3f, groundCombinedLayer);
-    if (hit)
-    {
-      return true;
-    }
-
-    return false;
+    Transform currentTransform = this.transform;
+    Vector3 currentPosition = currentTransform.position;
+    RaycastHit2D hit = Physics2D.Raycast(new Vector2(currentPosition.x, currentPosition.y - _playerCapsuleCollider2D.size.y * 0.5f), Vector2.down, 0.3f, groundCombinedLayer);
+    return hit;
   }
 
   private void PlayerGravity()
   {
     if (!isGrounded && !_jumping)
     {
-      _playerRigidbody.gravityScale = _defaultGravityScale * playerFallGravityModifier;
+      _playerRigidbody2D.gravityScale = _defaultGravityScale * playerFallGravityModifier;
     }
     else
     {
-      _playerRigidbody.gravityScale = _defaultGravityScale;
+      _playerRigidbody2D.gravityScale = _defaultGravityScale;
     }
   }
 
@@ -240,8 +248,8 @@ public class PlayerController : PhysicsObject
 
   public void Bounce()
   {
-    _playerRigidbody.velocity = new Vector2(_playerRigidbody.velocity.x, 0);
-    _playerRigidbody.AddRelativeForce(Vector2.up * Mathf.Ceil(jumpForce * bounceRate), ForceMode2D.Impulse);
+    _playerRigidbody2D.velocity = new Vector2(_playerRigidbody2D.velocity.x, 0);
+    _playerRigidbody2D.AddRelativeForce(Vector2.up * Mathf.Ceil(jumpForce * bounceRate), ForceMode2D.Impulse);
   }
 
   private void OnDrawGizmos()
