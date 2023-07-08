@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -12,21 +9,23 @@ public class CameraFollow : MonoBehaviour
   [Min(-100)]
   private float xMinPoint = -20;
 
-  private float _yMinPoint = 6;
+  private const float YMinPoint = 6;
 
-  private AudioSource _player;
+  // private AudioSource _player;
 
 
   private void Awake()
   {
-    _player = this.gameObject.AddComponent<AudioSource>() as AudioSource;
+    // _player = this.gameObject.AddComponent<AudioSource>() as AudioSource;
     playerPosition = GameObject.FindWithTag("Player").GetComponent<Transform>();
   }
 
   // Start is called before the first frame update
   private void Start()
   {
-    this.transform.position = new Vector3(playerPosition.position.x, playerPosition.position.y > _yMinPoint ? playerPosition.position.y : _yMinPoint, this.transform.position.z);
+    Transform currentTransform = this.transform;
+    Vector3 position = playerPosition.position;
+    currentTransform.position = new Vector3(position.x, position.y > YMinPoint ? playerPosition.position.y : YMinPoint, currentTransform.position.z);
   }
 
   // Update is called once per frame
@@ -36,10 +35,10 @@ public class CameraFollow : MonoBehaviour
     {
       playerPosition = GameObject.FindWithTag("Player").GetComponent<Transform>();
     }
-    if (playerPosition != null)
-    {
-      this.transform.position = new Vector3(playerPosition.position.x > xMinPoint ? playerPosition.position.x : xMinPoint, playerPosition.position.y > _yMinPoint ? playerPosition.position.y : _yMinPoint, this.transform.position.z);
-    }
+
+    if (playerPosition == null) return;
+    Transform currentTransform = this.transform;
+    currentTransform.position = new Vector3(playerPosition.position.x > xMinPoint ? playerPosition.position.x : xMinPoint, playerPosition.position.y > YMinPoint ? playerPosition.position.y : YMinPoint, currentTransform.position.z);
   }
 
   private void OnDrawGizmos()
