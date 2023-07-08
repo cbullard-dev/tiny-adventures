@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
   public bool IsPaused { get; private set; }
   public bool IsMainMenu { get; private set; }
-  public bool IsHardcore { get; private set; } = false;
+  public bool IsHardcore { get; set; } = false;
   public bool PlayerAlive { get; set; }
   public bool GameOver { get; set; }
 
