@@ -7,26 +7,26 @@ public class IntroTransition : MonoBehaviour
 {
   [SerializeField] private VideoPlayer introVideo;
 
-  private bool playedOnce;
+  private bool _playedOnce;
 
   // Start is called before the first frame update
   void Start()
   {
-    playedOnce = false;
+    _playedOnce = false;
   }
 
   // Update is called once per frame
   void Update()
   {
-    if (playedOnce && !introVideo.isPlaying) GameManager.Instance.LoadMainMenu();
+    if (_playedOnce && !introVideo.isPlaying) GameManager.Instance.LoadMainMenu();
 
-    if (!playedOnce && !introVideo.isPlaying) return;
+    if (!_playedOnce && !introVideo.isPlaying) return;
 
-    if (playedOnce && introVideo.isPlaying) return;
+    if (_playedOnce && introVideo.isPlaying) return;
 
-    if (!playedOnce && introVideo.isPlaying)
+    if (!_playedOnce && introVideo.isPlaying)
     {
-      playedOnce = true;
+      _playedOnce = true;
       return;
     }
 

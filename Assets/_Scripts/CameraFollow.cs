@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour
   [Min(-100)]
   private float xMinPoint = -20;
 
-  private float yMinPoint = 6;
+  private float _yMinPoint = 6;
 
   private AudioSource _player;
 
@@ -26,7 +26,7 @@ public class CameraFollow : MonoBehaviour
   // Start is called before the first frame update
   private void Start()
   {
-    this.transform.position = new Vector3(playerPosition.position.x, playerPosition.position.y > yMinPoint ? playerPosition.position.y : yMinPoint, this.transform.position.z);
+    this.transform.position = new Vector3(playerPosition.position.x, playerPosition.position.y > _yMinPoint ? playerPosition.position.y : _yMinPoint, this.transform.position.z);
   }
 
   // Update is called once per frame
@@ -38,7 +38,7 @@ public class CameraFollow : MonoBehaviour
     }
     if (playerPosition != null)
     {
-      this.transform.position = new Vector3(playerPosition.position.x > xMinPoint ? playerPosition.position.x : xMinPoint, playerPosition.position.y > yMinPoint ? playerPosition.position.y : yMinPoint, this.transform.position.z);
+      this.transform.position = new Vector3(playerPosition.position.x > xMinPoint ? playerPosition.position.x : xMinPoint, playerPosition.position.y > _yMinPoint ? playerPosition.position.y : _yMinPoint, this.transform.position.z);
     }
   }
 

@@ -2,12 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class GameUIManager : MonoBehaviour
 {
   [SerializeField] private TextMeshProUGUI scoreText;
   [SerializeField] private Image healthBar;
-  [SerializeField] private GameObject PauseMenu, resumeButton;
+  [FormerlySerializedAs("PauseMenu")] [SerializeField] private GameObject pauseMenu;
+  [SerializeField] private GameObject resumeButton;
+
   [SerializeField] private Slider volumeSlider;
   // Start is called before the first frame update
   void Awake()
@@ -43,13 +46,13 @@ public class GameUIManager : MonoBehaviour
   {
     if (GameManager.Instance.IsPaused)
     {
-      PauseMenu.SetActive(true);
+      pauseMenu.SetActive(true);
       SetMenuInput(resumeButton);
     }
 
     if (!GameManager.Instance.IsPaused)
     {
-      PauseMenu.SetActive(false);
+      pauseMenu.SetActive(false);
     }
   }
 

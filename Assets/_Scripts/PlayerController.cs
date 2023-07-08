@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerController : PhysicsObject
 {
 
-  PlayerControls controls;
+  PlayerControls _controls;
 
   [Header("Movement")]
   [SerializeField] private float moveSpeed = 2f;
@@ -14,8 +15,9 @@ public class PlayerController : PhysicsObject
   [SerializeField] private float jumpBuffer = 0.2f;
   [Range(0.5f, 5f)]
   [SerializeField] private float playerFallGravityModifier = 1;
+  [FormerlySerializedAs("BounceRate")]
   [Range(0f, 1f)]
-  [SerializeField] private float BounceRate = 0.75f;
+  [SerializeField] private float bounceRate = 0.75f;
 
   [Header("Layer selects")]
   [Space(10)]
@@ -27,47 +29,47 @@ public class PlayerController : PhysicsObject
   [ReadOnly, SerializeField] private bool isGrounded;
   [ReadOnly, SerializeField] private bool jump;
 
-  private Rigidbody2D playerRigidbody;
-  private Transform playerTransform;
-  private Animator playerAnimator;
+  private Rigidbody2D _playerRigidbody;
+  private Transform _playerTransform;
+  private Animator _playerAnimator;
 
-  private GameObject SpawnPoint;
+  private GameObject _spawnPoint;
 
-  private float defaultGravityScale;
-  private float horizontalMovement;
-  private float coyoteTimeCounter;
-  private float jumpBufferCounter;
+  private float _defaultGravityScale;
+  private float _horizontalMovement;
+  private float _coyoteTimeCounter;
+  private float _jumpBufferCounter;
 
-  private bool facingRight = true;
-  private bool playerAlive = true;
-  private bool jumping = false;
-  private bool flipSprite;
+  private bool _facingRight = true;
+  private bool _playerAlive = true;
+  private bool _jumping = false;
+  private bool _flipSprite;
 
 
   private void Awake()
   {
-    playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-    playerTransform = this.gameObject.GetComponent<Transform>();
-    playerAnimator = this.gameObject.GetComponent<Animator>();
-    defaultGravityScale = playerRigidbody.gravityScale;
+    _playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+    _playerTransform = this.gameObject.GetComponent<Transform>();
+    _playerAnimator = this.gameObject.GetComponent<Animator>();
+    _defaultGravityScale = _playerRigidbody.gravityScale;
     groundCombinedLayer = groundLayer | platformLayer;
-    SpawnPoint = GameObject.FindWithTag("Respawn");
+    _spawnPoint = GameObject.FindWithTag("Respawn");
   }
 
   protected override void Update()
   {
     base.Update();
-    jumpBufferCounter -= Time.deltaTime;
+    _jumpBufferCounter -= Time.deltaTime;
     isGrounded = IsGrounded();
     PlayerGravity();
     CoyoteTime();
     Jump();
 
-    if (horizontalMovement > 0.1f && !facingRight)
+    if (_horizontalMovement > 0.1f && !_facingRight)
     {
       FlipCharacter();
     }
-    else if (horizontalMovement < -0.1f && facingRight)
+    else if (_horizontalMovement < -0.1f && _facingRight)
     {
       FlipCharacter();
     }
@@ -77,15 +79,15 @@ public class PlayerController : PhysicsObject
 
   private void FixedUpdate()
   {
-    playerRigidbody.velocity = new Vector2(horizontalMovement * moveSpeed, playerRigidbody.velocity.y);
+    _playerRigidbody.velocity = new Vector2(_horizontalMovement * moveSpeed, _playerRigidbody.velocity.y);
   }
 
   public void Move(InputAction.CallbackContext context)
   {
     if (GameManager.Instance.IsPaused) return;
-    if (playerAlive)
+    if (_playerAlive)
     {
-      horizontalMovement = context.ReadValue<float>();
+      _horizontalMovement = context.ReadValue<float>();
     }
   }
 
@@ -94,16 +96,16 @@ public class PlayerController : PhysicsObject
     if (GameManager.Instance.IsPaused) return;
     if (context.performed)
     {
-      jumping = true;
-      jumpBufferCounter = jumpBuffer;
+      _jumping = true;
+      _jumpBufferCounter = jumpBuffer;
     }
 
     if (context.canceled)
     {
-      jumping = false;
+      _jumping = false;
     }
 
-    if (context.canceled && playerRigidbody.velocity.y > 0f)
+    if (context.canceled && _playerRigidbody.velocity.y > 0f)
     {
       JumpCancel();
     }
@@ -114,7 +116,7 @@ public class PlayerController : PhysicsObject
     if (context.performed && !GameManager.Instance.IsPaused)
     {
       Debug.Log("Escape Pressed and Paused: " + GameManager.Instance.IsPaused);
-      horizontalMovement = 0;
+      _horizontalMovement = 0;
       GameManager.Instance.Pause();
     }
     else if (context.performed && GameManager.Instance.IsPaused)
@@ -126,37 +128,37 @@ public class PlayerController : PhysicsObject
 
   private void AnimationHandler()
   {
-    playerAnimator.SetFloat("xVelocity", Mathf.Abs(horizontalMovement));
-    playerAnimator.SetBool("isGrounded", isGrounded);
-    playerAnimator.SetBool("isAlive", playerAlive);
+    _playerAnimator.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
+    _playerAnimator.SetBool("isGrounded", isGrounded);
+    _playerAnimator.SetBool("isAlive", _playerAlive);
   }
 
   private void JumpAnimationHandler()
   {
-    if (!playerAnimator.GetBool("isGrounded"))
+    if (!_playerAnimator.GetBool("isGrounded"))
     {
-      playerAnimator.SetBool("isGrounded", true);
-      playerAnimator.SetFloat("xVelocity", Mathf.Abs(horizontalMovement));
+      _playerAnimator.SetBool("isGrounded", true);
+      _playerAnimator.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
     }
   }
 
   private void PlayerJump()
   {
     AudioManager.Instance.Play("PlayerJump");
-    playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
-    playerRigidbody.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-    jumpBufferCounter = 0f;
+    _playerRigidbody.velocity = new Vector2(_playerRigidbody.velocity.x, 0);
+    _playerRigidbody.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    _jumpBufferCounter = 0f;
   }
 
   private void JumpCancel()
   {
-    playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, playerRigidbody.velocity.y * 0.5f);
-    coyoteTimeCounter = 0f;
+    _playerRigidbody.velocity = new Vector2(_playerRigidbody.velocity.x, _playerRigidbody.velocity.y * 0.5f);
+    _coyoteTimeCounter = 0f;
   }
 
   private bool CanJump()
   {
-    return playerAlive && coyoteTimeCounter > 0f;
+    return _playerAlive && _coyoteTimeCounter > 0f;
   }
 
   private void Jump()
@@ -171,25 +173,25 @@ public class PlayerController : PhysicsObject
   {
     if (IsGrounded())
     {
-      coyoteTimeCounter = coyoteTime;
+      _coyoteTimeCounter = coyoteTime;
     }
     else
     {
-      coyoteTimeCounter -= Time.deltaTime;
+      _coyoteTimeCounter -= Time.deltaTime;
     }
   }
 
   private bool JumpBuffered()
   {
-    return jumpBufferCounter > 0;
+    return _jumpBufferCounter > 0;
   }
 
   private void FlipCharacter()
   {
-    facingRight = !facingRight;
-    Vector2 scale = playerTransform.localScale;
+    _facingRight = !_facingRight;
+    Vector2 scale = _playerTransform.localScale;
     scale.x *= -1;
-    playerTransform.localScale = scale;
+    _playerTransform.localScale = scale;
   }
 
   private bool IsGrounded()
@@ -205,41 +207,41 @@ public class PlayerController : PhysicsObject
 
   private void PlayerGravity()
   {
-    if (!isGrounded && !jumping)
+    if (!isGrounded && !_jumping)
     {
-      playerRigidbody.gravityScale = defaultGravityScale * playerFallGravityModifier;
+      _playerRigidbody.gravityScale = _defaultGravityScale * playerFallGravityModifier;
     }
     else
     {
-      playerRigidbody.gravityScale = defaultGravityScale;
+      _playerRigidbody.gravityScale = _defaultGravityScale;
     }
   }
 
   public void KillPlayer()
   {
-    if (playerAlive)
+    if (_playerAlive)
     {
       AudioManager.Instance.Play("PlayerDeath");
-      playerAlive = false;
-      horizontalMovement = 0;
+      _playerAlive = false;
+      _horizontalMovement = 0;
       Bounce();
     }
   }
 
   public void DestroyPlayer()
   {
-    if (playerAlive) AudioManager.Instance.Play("ShortPlayerDeath");
+    if (_playerAlive) AudioManager.Instance.Play("ShortPlayerDeath");
   }
 
   public bool PlayerAlive()
   {
-    return playerAlive;
+    return _playerAlive;
   }
 
   public void Bounce()
   {
-    playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, 0);
-    playerRigidbody.AddRelativeForce(Vector2.up * Mathf.Ceil(jumpForce * BounceRate), ForceMode2D.Impulse);
+    _playerRigidbody.velocity = new Vector2(_playerRigidbody.velocity.x, 0);
+    _playerRigidbody.AddRelativeForce(Vector2.up * Mathf.Ceil(jumpForce * bounceRate), ForceMode2D.Impulse);
   }
 
   private void OnDrawGizmos()
@@ -255,12 +257,12 @@ public class PlayerController : PhysicsObject
     float sizeY = size.y;
     Vector2 topRight = origin + new Vector2(sizeX, 0);
     Vector2 bottomLeft = origin + new Vector2(0, -sizeY);
-    Vector2 BottomRight = origin + new Vector2(sizeX, -sizeY);
+    Vector2 bottomRight = origin + new Vector2(sizeX, -sizeY);
     Gizmos.color = Color.magenta;
     Gizmos.DrawLine(origin, topRight);
     Gizmos.DrawLine(origin, bottomLeft);
-    Gizmos.DrawLine(bottomLeft, BottomRight);
-    Gizmos.DrawLine(topRight, BottomRight);
+    Gizmos.DrawLine(bottomLeft, bottomRight);
+    Gizmos.DrawLine(topRight, bottomRight);
   }
 
 }

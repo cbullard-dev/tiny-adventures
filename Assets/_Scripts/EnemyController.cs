@@ -11,34 +11,34 @@ public class EnemyController : PhysicsObject
   [Space(10), Header("Debug fields")]
   [ReadOnly, SerializeField] private bool isAlive = true;
 
-  private GameObject[] enemyPatrolPoints;
-  private Rigidbody2D enemyRigidbody;
-  private Transform enemyTransform;
-  private Animator enemyAnimator;
+  private GameObject[] _enemyPatrolPoints;
+  private Rigidbody2D _enemyRigidbody;
+  private Transform _enemyTransform;
+  private Animator _enemyAnimator;
 
-  private AudioSource enemySounds;
+  private AudioSource _enemySounds;
 
-  private Vector2 currentTarget;
-  private Vector2 nextTarget;
-  private Vector2 previousTarget;
+  private Vector2 _currentTarget;
+  private Vector2 _nextTarget;
+  private Vector2 _previousTarget;
 
-  private bool facingRight = false;
+  private bool _facingRight = false;
 
   private void Awake()
   {
-    enemyTransform = this.GetComponent<Transform>();
-    enemyRigidbody = this.GetComponent<Rigidbody2D>();
-    enemyAnimator = this.gameObject.GetComponent<Animator>();
-    enemySounds = this.gameObject.GetComponent<AudioSource>();
+    _enemyTransform = this.GetComponent<Transform>();
+    _enemyRigidbody = this.GetComponent<Rigidbody2D>();
+    _enemyAnimator = this.gameObject.GetComponent<Animator>();
+    _enemySounds = this.gameObject.GetComponent<AudioSource>();
     if (enemyPatrolController == null) patrolEnemy = false;
     if (enemyPatrolController != null)
     {
-      enemyPatrolPoints = enemyPatrolController.GetPatrolPoints();
+      _enemyPatrolPoints = enemyPatrolController.GetPatrolPoints();
     }
-    if (enemyPatrolPoints != null)
+    if (_enemyPatrolPoints != null)
     {
-      currentTarget = enemyPatrolPoints[1].transform.position;
-      nextTarget = enemyPatrolPoints[0].transform.position;
+      _currentTarget = _enemyPatrolPoints[1].transform.position;
+      _nextTarget = _enemyPatrolPoints[0].transform.position;
     }
   }
   // Start is called before the first frame update
@@ -51,12 +51,12 @@ public class EnemyController : PhysicsObject
   protected override void Update()
   {
     base.Update();
-    enemyAnimator.SetFloat("xVelocity", Mathf.Abs(enemyRigidbody.velocity.x));
-    if (enemyRigidbody.velocity.x > 0.1f && !facingRight)
+    _enemyAnimator.SetFloat("xVelocity", Mathf.Abs(_enemyRigidbody.velocity.x));
+    if (_enemyRigidbody.velocity.x > 0.1f && !_facingRight)
     {
       FlipEnemy();
     }
-    else if (enemyRigidbody.velocity.x < -0.1f && facingRight)
+    else if (_enemyRigidbody.velocity.x < -0.1f && _facingRight)
     {
       FlipEnemy();
     }
@@ -64,7 +64,7 @@ public class EnemyController : PhysicsObject
 
   private void FixedUpdate()
   {
-    if (isAlive && patrolEnemy && Mathf.Abs(this.transform.position.x - currentTarget.x) >= 0.5f)
+    if (isAlive && patrolEnemy && Mathf.Abs(this.transform.position.x - _currentTarget.x) >= 0.5f)
     {
       MoveToTarget();
     }
@@ -91,7 +91,7 @@ public class EnemyController : PhysicsObject
 
   public void MoveToTarget()
   {
-    enemyRigidbody.velocity = new Vector2(moveSpeed * MoveDirection(this.transform.position.x, currentTarget.x), enemyRigidbody.velocity.y);
+    _enemyRigidbody.velocity = new Vector2(moveSpeed * MoveDirection(this.transform.position.x, _currentTarget.x), _enemyRigidbody.velocity.y);
   }
 
   private float MoveDirection(float enemyPosition, float targetPosition)
@@ -113,22 +113,22 @@ public class EnemyController : PhysicsObject
 
   private void ChangeTarget()
   {
-    previousTarget = currentTarget;
-    currentTarget = nextTarget;
-    nextTarget = previousTarget;
+    _previousTarget = _currentTarget;
+    _currentTarget = _nextTarget;
+    _nextTarget = _previousTarget;
   }
 
   private void StopMoving()
   {
-    enemyRigidbody.velocity = new Vector2(0, enemyRigidbody.velocity.y);
+    _enemyRigidbody.velocity = new Vector2(0, _enemyRigidbody.velocity.y);
   }
 
   private void FlipEnemy()
   {
-    facingRight = !facingRight;
-    Vector2 scale = enemyTransform.localScale;
+    _facingRight = !_facingRight;
+    Vector2 scale = _enemyTransform.localScale;
     scale.x *= -1;
-    enemyTransform.localScale = scale;
+    _enemyTransform.localScale = scale;
   }
 
   public bool IsAlive()
