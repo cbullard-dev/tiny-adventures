@@ -175,6 +175,17 @@
                 },
                 {
                     "name": "",
+                    "id": "e4453cd0-ef2f-4cdf-beef-5869aabe9d83",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "099f5935-4a99-4d1c-8211-d619a70d89a1",
                     "path": "<Gamepad>/dpad/down",
                     "interactions": "",
@@ -263,8 +274,8 @@
                 },
                 {
                     "name": "",
-                    "id": "cffd3feb-f973-4d7d-bf03-561f339189ce",
-                    "path": "*/{Forward}",
+                    "id": "cff6b8ba-2613-413a-a926-8cd4609a1ae3",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -274,8 +285,8 @@
                 },
                 {
                     "name": "",
-                    "id": "04e4a77f-497f-4baf-99a5-e0791e935ec9",
-                    "path": "*/{PrimaryAction}",
+                    "id": "d27bc8dd-4816-49b9-8361-762f283cb853",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -285,8 +296,19 @@
                 },
                 {
                     "name": "",
-                    "id": "c694bddb-3356-437e-9d01-63e0cdbaf0b2",
-                    "path": "*/{Submit}",
+                    "id": "dbd140e6-2bb0-48a4-87b6-22dbe1c3b333",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Any",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "21c88df8-1686-4c8d-81bc-d4ea2c38d1a2",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

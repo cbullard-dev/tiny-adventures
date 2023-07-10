@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Video;
 
 public class IntroTransition : MonoBehaviour
@@ -10,13 +9,13 @@ public class IntroTransition : MonoBehaviour
   private bool _playedOnce;
 
   // Start is called before the first frame update
-  void Start()
+  private void Start()
   {
     _playedOnce = false;
   }
 
   // Update is called once per frame
-  void Update()
+  private void Update()
   {
     if (_playedOnce && !introVideo.isPlaying) GameManager.Instance.LoadMainMenu();
 
@@ -24,14 +23,14 @@ public class IntroTransition : MonoBehaviour
 
     if (_playedOnce && introVideo.isPlaying) return;
 
-    if (!_playedOnce && introVideo.isPlaying)
+    if (!_playedOnce && introVideo.isPlaying) _playedOnce = true;
+  }
+  
+  public void Any(InputAction.CallbackContext context)
+  {
+    if (context.performed)
     {
-      _playedOnce = true;
-      return;
+      introVideo.Stop();
     }
-
-
-
-
   }
 }
