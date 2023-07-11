@@ -7565,26 +7565,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6941255067543944199, guid: 315c7587c70e96142a53a5b27cd14e81,
         type: 3}
-      propertyPath: xMinPoint
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -6941255067543944199, guid: 315c7587c70e96142a53a5b27cd14e81,
-        type: 3}
-      propertyPath: MovementZone.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -6941255067543944199, guid: 315c7587c70e96142a53a5b27cd14e81,
-        type: 3}
-      propertyPath: MovementZone.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: -6941255067543944199, guid: 315c7587c70e96142a53a5b27cd14e81,
-        type: 3}
-      propertyPath: cameraPosition
-      value: 
-      objectReference: {fileID: 1462656302}
-    - target: {fileID: -6941255067543944199, guid: 315c7587c70e96142a53a5b27cd14e81,
-        type: 3}
       propertyPath: playerPosition
       value: 
       objectReference: {fileID: 266332163}
@@ -7592,31 +7572,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110770198810568702, guid: 315c7587c70e96142a53a5b27cd14e81,
-        type: 3}
-      propertyPath: m_Depth
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110770198810568702, guid: 315c7587c70e96142a53a5b27cd14e81,
-        type: 3}
-      propertyPath: orthographic size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110770198810568702, guid: 315c7587c70e96142a53a5b27cd14e81,
-        type: 3}
-      propertyPath: m_NormalizedViewPortRect.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110770198810568702, guid: 315c7587c70e96142a53a5b27cd14e81,
-        type: 3}
-      propertyPath: m_NormalizedViewPortRect.width
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5110770198810568702, guid: 315c7587c70e96142a53a5b27cd14e81,
-        type: 3}
-      propertyPath: m_NormalizedViewPortRect.height
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5110770198810568703, guid: 315c7587c70e96142a53a5b27cd14e81,
         type: 3}
@@ -14216,7 +14171,7 @@ PrefabInstance:
     - target: {fileID: 104367331798029352, guid: 2b2dcf4f79d7c47a3bc9fe1fc64c5f5e,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.95
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 1229709025015290105, guid: 2b2dcf4f79d7c47a3bc9fe1fc64c5f5e,
         type: 3}
@@ -15211,12 +15166,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 066be3e1da0a3481eb2bbb0a2ab1bab7, type: 3}
---- !u!4 &1462656302 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5110770198810568703, guid: 315c7587c70e96142a53a5b27cd14e81,
-    type: 3}
-  m_PrefabInstance: {fileID: 1005809712}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1466420892
 PrefabInstance:
   m_ObjectHideFlags: 0
