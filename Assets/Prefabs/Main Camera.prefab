@@ -122,5 +122,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPosition: {fileID: 5110770198810568703}
   playerPosition: {fileID: 0}
-  MovementZone: {x: 3.5, y: 5, z: 0}
-  xMinPoint: -20
+  movementZone: {x: 0, y: 0, z: 0}
+  xMinPoint: 0
