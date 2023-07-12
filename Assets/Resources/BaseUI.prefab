@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1019973675717459375}
   healthBar: {fileID: 1019973674212437004}
-  PauseMenu: {fileID: 1019973674290184574}
+  pauseMenu: {fileID: 1019973674290184574}
   resumeButton: {fileID: 1019973675969952841}
   volumeSlider: {fileID: 6413169094816977114}
 --- !u!1 &1019973675645385366
