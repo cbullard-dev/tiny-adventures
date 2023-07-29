@@ -10,6 +10,11 @@ public abstract class BaseStateMachine : MonoBehaviour
         _currentState?.StateTick(Time.deltaTime);
     }
 
+    private void FixedUpdate()
+    {
+        _currentState?.StateFixedTick(Time.fixedDeltaTime);
+    }
+
     public void ChangeState(BaseState newState)
     {
         if (newState == _currentState) return;
